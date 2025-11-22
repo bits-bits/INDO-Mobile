@@ -30,6 +30,9 @@ kotlin {
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
+
+            implementation(libs.koin.android)
+            implementation(libs.koin.androidx.compose)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -43,8 +46,24 @@ kotlin {
 
             implementation(compose.components.resources)
             implementation(projects.designsystem)
+            implementation(projects.domain)
 
+//            implementation(libs.navigator)
+//            implementation(libs.transitions)
+//            implementation(libs.bottom.sheet.navigator) // optional
+//            implementation(libs.tab.navigator)          // optional
 
+            implementation(libs.androidx.navigation.compose)
+
+            // koin
+            implementation(libs.koin.compose)
+
+            // coil
+            implementation(libs.coil.compose)
+            implementation(libs.coil.network.ktor3)
+
+            implementation(libs.peekaboo.ui)
+            implementation(libs.peekaboo.image.picker)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

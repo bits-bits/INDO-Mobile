@@ -13,13 +13,21 @@ composeMultiplatform = "1.9.1"
 junit = "4.13.2"
 kotlin = "2.2.20"
 kotlinStdlib = "2.2.20"
+ktorClientLogging = "3.3.1"
+lottie = "6.6.10"
+navigator = "1.0.0"
 runner = "1.7.0"
 core = "1.7.0"
 koin = "4.0.0"
 kotlinxDatetime = "0.7.1"
 material = "1.13.0"
+navigationCompose = "2.9.0-rc02"
+ktor = "3.3.1"
+coil = "3.3.0"
+peekaboo = "0.5.2"
 
 [libraries]
+bottom-sheet-navigator = { module = "cafe.adriel.voyager:bottom-sheet-navigator", version.ref = "navigator" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlin-testJunit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 junit = { module = "junit:junit", version.ref = "junit" }
@@ -35,7 +43,27 @@ androidx-runner = { group = "androidx.test", name = "runner", version.ref = "run
 androidx-core = { group = "androidx.test", name = "core", version.ref = "core" }
 koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koin" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDatetime" }
+ktor-client-auth = { module = "io.ktor:ktor-client-auth", version.ref = "ktor" }
+ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktorClientLogging" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+navigator = { module = "cafe.adriel.voyager:navigator", version.ref = "navigator" }
+tab-navigator = { module = "cafe.adriel.voyager:tab-navigator", version.ref = "navigator" }
+transitions = { module = "cafe.adriel.voyager:transitions", version.ref = "navigator" }
+androidx-navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
+ktor-core = {module = "io.ktor:ktor-client-core", version.ref = "ktor"}
+ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
+ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor" }
+ktor-client-serialization = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
+ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
+koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
+koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin" }
+koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
+koin-compose-viewmodel = { module = "io.insert-koin:koin-compose-viewmodel", version.ref = "koin" }
+coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
+coil-network-ktor3 = { module = "io.coil-kt.coil3:coil-network-ktor3", version.ref = "coil" }
+peekaboo-ui = { module = "io.github.onseok:peekaboo-ui", version.ref = "peekaboo" }
+peekaboo-image-picker = { module = "io.github.onseok:peekaboo-image-picker", version.ref = "peekaboo" }
+
 
 
 [plugins]
