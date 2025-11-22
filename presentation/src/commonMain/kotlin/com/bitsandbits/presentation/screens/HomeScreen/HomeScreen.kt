@@ -47,60 +47,59 @@ fun HomeScreen(homeViewModel: HomeViewModel = koinInject()) {
 fun HomeScreenContent(state: HomeUiState, interactionListener: HomeInteractionListener) {
     val navController = LocalNavController.current
 
-    if(state.searchTab.isLoading){
+    if (state.searchTab.isLoading) {
         LoadingComponent()
-    }else{
-        IndoTheme {
-            Column(
-                modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp).statusBarsPadding()
-                    .padding(top = 12.dp)
-            ) {
-                BasicTextInputField(
-                    value = state.searchTab.searchQuery,
-                    endIconPainter = painterResource(
-                        Res.drawable.library
-                    ),
-                    hintText = "Search . . .",
-                    onValueChange = { query ->
-                        interactionListener.onChangeQuery(query = query)
-                    },
-                    startIconPainter = painterResource(
-                        Res.drawable.library
-                    ),
-                    onClickEndIcon = {
-                        interactionListener.onClickSearch()
-                    }
+    } else {
+        Column(
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp).statusBarsPadding()
+                .padding(top = 12.dp)
+        ) {
+            BasicTextInputField(
+                value = state.searchTab.searchQuery,
+                endIconPainter = painterResource(
+                    Res.drawable.library
+                ),
+                hintText = "Search . . .",
+                onValueChange = { query ->
+                    interactionListener.onChangeQuery(query = query)
+                },
+                startIconPainter = painterResource(
+                    Res.drawable.library
+                ),
+                onClickEndIcon = {
+                    interactionListener.onClickSearch()
+                }
+            )
+            val imageUrl =
+                "https://wallpapers.com/images/thumbnail/cute-cat-sunglasses-profile-picture-mw7qp9gjrp272zky.png"
+            LaunchedEffect(Unit) {
+                interactionListener.downloadImage(imageUrl)
+            }
+            val imageBitmap = state.tempImage?.toImageBitmap()
+            if (imageBitmap != null) {
+                println("TAG bob, image bitmap is: $imageBitmap")
+                Image(
+                    bitmap = imageBitmap,
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.align(Alignment.CenterHorizontally),
                 )
-                val imageUrl = "https://wallpapers.com/images/thumbnail/cute-cat-sunglasses-profile-picture-mw7qp9gjrp272zky.png"
-                LaunchedEffect(Unit){
-                    interactionListener.downloadImage(imageUrl)
-                }
-                val imageBitmap = state.tempImage?.toImageBitmap()
-                if (imageBitmap != null){
-                    println("TAG bob, image bitmap is: $imageBitmap")
-                    Image(
-                        bitmap = imageBitmap,
-                        contentDescription = null,
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier.align(Alignment.CenterHorizontally),
-                    )
-                }
-                AnimatedVisibility(visible = state.searchTab.showNumberOfResults) {
-                    Text(
-                        text = "Total Results Found: ${state.searchTab.locations.count()}",
-                        style = Theme.textStyle.labelSmall,
-                        modifier = Modifier.padding(top = 10.dp)
-                    )
-                }
-                LazyColumn(
-                    modifier = Modifier.fillMaxWidth().padding(bottom = 80.dp, top = 12.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    val locations = state.searchTab.locations
-                    items(state.searchTab.locations.count()) { locationIndex ->
+            }
+            AnimatedVisibility(visible = state.searchTab.showNumberOfResults) {
+                Text(
+                    text = "Total Results Found: ${state.searchTab.locations.count()}",
+                    style = Theme.textStyle.labelSmall,
+                    modifier = Modifier.padding(top = 10.dp)
+                )
+            }
+            LazyColumn(
+                modifier = Modifier.fillMaxWidth().padding(bottom = 80.dp, top = 12.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                val locations = state.searchTab.locations
+                items(state.searchTab.locations.count()) { locationIndex ->
 
-                        LocationCard(location = locations[locationIndex])
-                    }
+                    LocationCard(location = locations[locationIndex])
                 }
             }
         }
