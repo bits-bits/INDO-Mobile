@@ -26,8 +26,9 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.unit.dp
 import com.bitsandbits.designsystem.theme.theme.IndoTheme
 import com.bitsandbits.designsystem.theme.theme.Theme
+import com.bitsandbits.presentation.navigation.MainScreenDestinations
+import com.bitsandbits.presentation.navigation.index
 import com.bitsandbits.presentation.screens.HomeScreen.HomeScreen
-import com.bitsandbits.presentation.screens.HomeScreen.HomeViewModel
 import com.bitsandbits.presentation.screens.MapScreen.MapScreen
 import com.bitsandbits.presentation.screens.ProfileScreen.ProfileScreen
 import com.bitsandbits.presentation.screens.libraryScreen.LibraryScreen
@@ -39,10 +40,10 @@ import indo.presentation.generated.resources.profile
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
-fun IndoScaffold() {
+fun MainScreen(selectedTab: MainScreenDestinations = MainScreenDestinations.Home) {
     IndoTheme {
         Box(modifier = Modifier.fillMaxSize().background(Theme.color.onSecondary)) {
-            var index by remember { mutableStateOf(0) }
+            var index by remember { mutableStateOf(selectedTab.index) }
             if (index == 0) {
                 HomeScreen()
             }

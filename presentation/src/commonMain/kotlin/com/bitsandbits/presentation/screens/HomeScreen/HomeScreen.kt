@@ -2,6 +2,7 @@ package com.bitsandbits.presentation.screens.HomeScreen
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -28,6 +29,8 @@ import com.bitsandbits.designsystem.theme.theme.Theme
 import com.bitsandbits.presentation.component.BasicTextInputField
 import com.bitsandbits.presentation.component.LoadingComponent
 import com.bitsandbits.presentation.component.LocationCard
+import com.bitsandbits.presentation.navigation.Destinations
+import com.bitsandbits.presentation.navigation.LocalNavController
 import com.preat.peekaboo.image.picker.toImageBitmap
 import indo.presentation.generated.resources.Res
 import indo.presentation.generated.resources.library
@@ -42,6 +45,8 @@ fun HomeScreen(homeViewModel: HomeViewModel = koinInject()) {
 
 @Composable
 fun HomeScreenContent(state: HomeUiState, interactionListener: HomeInteractionListener) {
+    val navController = LocalNavController.current
+
     if(state.searchTab.isLoading){
         LoadingComponent()
     }else{

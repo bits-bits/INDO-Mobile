@@ -25,6 +25,7 @@ navigationCompose = "2.9.0-rc02"
 ktor = "3.3.1"
 coil = "3.3.0"
 peekaboo = "0.5.2"
+kotlinx-serialization = "1.6.3"
 
 [libraries]
 bottom-sheet-navigator = { module = "cafe.adriel.voyager:bottom-sheet-navigator", version.ref = "navigator" }
@@ -50,6 +51,8 @@ navigator = { module = "cafe.adriel.voyager:navigator", version.ref = "navigator
 tab-navigator = { module = "cafe.adriel.voyager:tab-navigator", version.ref = "navigator" }
 transitions = { module = "cafe.adriel.voyager:transitions", version.ref = "navigator" }
 androidx-navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
+
 ktor-core = {module = "io.ktor:ktor-client-core", version.ref = "ktor"}
 ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
 ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor" }
@@ -75,3 +78,4 @@ kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref =
 androidKotlinMultiplatformLibrary = { id = "com.android.kotlin.multiplatform.library", version.ref = "agp" }
 androidLint = { id = "com.android.lint", version.ref = "agp" }
 kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }

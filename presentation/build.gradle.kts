@@ -6,7 +6,7 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.androidLibrary)
-
+    alias(libs.plugins.kotlinx.serialization)
 }
 
 kotlin {
@@ -48,11 +48,11 @@ kotlin {
             implementation(projects.designsystem)
             implementation(projects.domain)
 
-//            implementation(libs.navigator)
-//            implementation(libs.transitions)
-//            implementation(libs.bottom.sheet.navigator) // optional
-//            implementation(libs.tab.navigator)          // optional
 
+            // serialization
+            implementation(libs.kotlinx.serialization.json)
+
+            // Navigation
             implementation(libs.androidx.navigation.compose)
 
             // koin
