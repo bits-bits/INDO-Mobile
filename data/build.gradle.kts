@@ -1,7 +1,10 @@
+import org.gradle.kotlin.dsl.projects
+
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidKotlinMultiplatformLibrary)
     alias(libs.plugins.androidLint)
+    kotlin("plugin.serialization") version "1.9.20"
 }
 
 kotlin {
@@ -61,6 +64,16 @@ kotlin {
             dependencies {
                 implementation(libs.kotlin.stdlib)
                 // Add KMP dependencies here
+                implementation(projects.domain)
+
+                // Ktor
+                api(libs.ktor.core)
+                implementation(libs.ktor.client.serialization)
+                implementation(libs.ktor.serialization.kotlinx.json)
+                implementation(libs.ktor.client.logging)
+
+                implementation(libs.ktor.client.auth)
+
             }
         }
 
@@ -72,9 +85,8 @@ kotlin {
 
         androidMain {
             dependencies {
-                // Add Android-specific dependencies here. Note that this source set depends on
-                // commonMain by default and will correctly pull the Android artifacts of any KMP
-                // dependencies declared in commonMain.
+                // Ktor
+                api(libs.ktor.client.okhttp)
             }
         }
 
@@ -88,11 +100,8 @@ kotlin {
 
         iosMain {
             dependencies {
-                // Add iOS-specific dependencies here. This a source set created by Kotlin Gradle
-                // Plugin (KGP) that each specific iOS target (e.g., iosX64) depends on as
-                // part of KMP’s default source set hierarchy. Note that this source set depends
-                // on common by default and will correctly pull the iOS artifacts of any
-                // KMP dependencies declared in commonMain.
+                // ktor
+                api(libs.ktor.client.darwin)
             }
         }
     }
