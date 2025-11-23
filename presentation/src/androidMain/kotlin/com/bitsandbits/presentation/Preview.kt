@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import com.bitsandbits.entity.Location
 import com.bitsandbits.presentation.component.BasicTextInputField
-import com.bitsandbits.presentation.component.MainScreen
+import com.bitsandbits.presentation.screens.mainScreen.MainScreen
 import com.bitsandbits.presentation.component.LocationCard
 
 @PreviewLightDark

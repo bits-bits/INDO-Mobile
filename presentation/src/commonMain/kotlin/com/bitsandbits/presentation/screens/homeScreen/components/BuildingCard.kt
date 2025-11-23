@@ -1,12 +1,10 @@
-package com.bitsandbits.presentation.component
+package com.bitsandbits.presentation.screens.homeScreen.components
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -19,15 +17,17 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.unit.dp
 import com.bitsandbits.designsystem.theme.theme.Theme
-import com.bitsandbits.presentation.screens.HomeScreen.HomeUiState
+import com.bitsandbits.presentation.common.uiState.BuildingUiState
+import com.bitsandbits.presentation.component.ImageViewer
+import com.bitsandbits.presentation.component.IndoImageSource
+import com.bitsandbits.presentation.component.LabelChip
 import indo.presentation.generated.resources.Res
 import indo.presentation.generated.resources.ic_circle_arrow_right
-import indo.presentation.generated.resources.image_place_holder
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun BuildingCard(
-    building: HomeUiState.BuildingUiState,
+    building: BuildingUiState,
     modifier: Modifier = Modifier,
     onClickImage: () -> Unit = {},
     onClickArrow: () -> Unit = {},
@@ -46,7 +46,7 @@ fun BuildingCard(
 
     ) {
         ImageViewer(
-            image = IndoImageSource.Url(building.imageUrl),
+            image = IndoImageSource.Url(building.imageUrl ?: ""),
             isLoading = false,
             modifier = Modifier
                 .fillMaxWidth()

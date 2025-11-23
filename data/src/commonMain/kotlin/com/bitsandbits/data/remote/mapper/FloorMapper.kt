@@ -6,6 +6,7 @@ import com.bitsandbits.entity.Floor
 fun FloorsBasicDetailsResponse.toDomain(): Floor{
     return Floor(
         id = this.id,
-        number = this.number
+        number = this.number,
+        imageUrl = null
     )
 }

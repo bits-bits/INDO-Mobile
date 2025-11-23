@@ -72,7 +72,8 @@ fun ImageViewer(
             Image(
                 painter = if (isLoading) painterResource(Res.drawable.image_place_holder) else image.value,
                 contentDescription = null,
-                modifier = modifier
+                modifier = modifier,
+                contentScale = ContentScale.FillBounds,
             )
         }
 

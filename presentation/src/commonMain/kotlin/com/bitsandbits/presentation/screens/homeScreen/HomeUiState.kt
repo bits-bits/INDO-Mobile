@@ -1,7 +1,7 @@
-package com.bitsandbits.presentation.screens.HomeScreen
+package com.bitsandbits.presentation.screens.homeScreen
 
-import com.bitsandbits.entity.Building
 import com.bitsandbits.entity.Location
+import com.bitsandbits.presentation.common.uiState.BuildingUiState
 
 data class HomeUiState(
     val searchTab: SearchTab = SearchTab(),
@@ -21,11 +21,5 @@ data class HomeUiState(
         val isLoading: Boolean = false,
         val errorMessage: String? = null,
         val buildings: List<BuildingUiState> = emptyList()
-    )
-
-    data class BuildingUiState(
-        val id: String,
-        val name: String,
-        val imageUrl: String
     )
 }

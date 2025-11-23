@@ -1,4 +1,4 @@
-package com.bitsandbits.presentation.screens.MapScreen
+package com.bitsandbits.presentation.screens.profileScreen
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -9,8 +9,8 @@ import androidx.compose.ui.Modifier
 import com.bitsandbits.designsystem.theme.theme.Theme
 
 @Composable
-fun MapScreen() {
+fun ProfileScreen() {
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center){
-        Text(text = "Map Screen", style = Theme.textStyle.labelMedium)
+        Text(text = "Profile Screen", style = Theme.textStyle.labelMedium)
     }
 }

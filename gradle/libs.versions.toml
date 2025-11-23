@@ -26,6 +26,9 @@ ktor = "3.3.1"
 coil = "3.3.0"
 peekaboo = "0.5.2"
 kotlinx-serialization = "1.6.3"
+resources = "0.25.0"
+moko = "0.18.0"
+
 
 [libraries]
 bottom-sheet-navigator = { module = "cafe.adriel.voyager:bottom-sheet-navigator", version.ref = "navigator" }
@@ -66,6 +69,10 @@ coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" 
 coil-network-ktor3 = { module = "io.coil-kt.coil3:coil-network-ktor3", version.ref = "coil" }
 peekaboo-ui = { module = "io.github.onseok:peekaboo-ui", version.ref = "peekaboo" }
 peekaboo-image-picker = { module = "io.github.onseok:peekaboo-image-picker", version.ref = "peekaboo" }
+resources = { module = "dev.icerock.moko:resources", version.ref = "resources" }
+moko-permissions = { module = "dev.icerock.moko:permissions", version.ref = "moko" }
+moko-permissions-compose = { module = "dev.icerock.moko:permissions-compose", version.ref = "moko" }
+
 
 
 
@@ -79,3 +86,10 @@ androidKotlinMultiplatformLibrary = { id = "com.android.kotlin.multiplatform.lib
 androidLint = { id = "com.android.lint", version.ref = "agp" }
 kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+
+[bundles]
+koin-compose = [
+    "koin-core",
+    "koin-compose",
+    "koin-compose-viewmodel",
+]
