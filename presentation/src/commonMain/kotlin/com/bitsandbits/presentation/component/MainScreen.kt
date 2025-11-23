@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
@@ -62,76 +63,97 @@ fun MainScreen(selectedTab: MainScreenDestinations = MainScreenDestinations.Home
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
                     .fillMaxWidth()
-                    .height(80.dp)
-                    .background(Theme.color.onSecondaryContainer),
+                    .height(90.dp)
+                    .background(Theme.color.onSecondaryContainer)
+                    .navigationBarsPadding(),
                 horizontalArrangement = Arrangement.SpaceAround,
                 verticalAlignment = Alignment.CenterVertically
-            ) {
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Image(
-                        painter = painterResource(Res.drawable.home_icon),
+            )
+            {
+                Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.clickable { index = 0 }) {
+                    Box(
                         modifier = Modifier
-                            .size(30.dp)
+                            .size(42.dp)
                             .clip(CircleShape)
                             .background(if (index == 0) Theme.color.onPrimary else Color.Transparent),
-                        colorFilter = ColorFilter.tint(Color(0xFF6B7280)),
-                        contentDescription = null
-                    )
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Image(
+                            painter = painterResource(Res.drawable.home_icon),
+                            colorFilter = if (index == 0) ColorFilter.tint(Theme.color.onSecondaryContainer) else ColorFilter.tint(Color(0xFF6B7280)),
+                            modifier = Modifier.size(28.dp),
+                            contentDescription = null
+                        )
+                    }
                     Text(
-                        "Home",
-                        color = Color.White,
-                        modifier = Modifier
-                            .clickable { index = 0 }
+                        text = "Home",
+                        color = Theme.color.primary,
+                        style = Theme.textStyle.bodyMedium,
                     )
                 }
 
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Image(
-                        painter = painterResource(Res.drawable.map),
-                        contentDescription = null,
+                Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.clickable { index = 1 }) {
+                    Box(
                         modifier = Modifier
+                            .size(42.dp)
                             .clip(CircleShape)
                             .background(if (index == 1) Theme.color.onPrimary else Color.Transparent),
-                    )
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Image(
+                            painter = painterResource(Res.drawable.map),
+                            colorFilter = if (index == 1) ColorFilter.tint(Theme.color.onSecondaryContainer) else ColorFilter.tint(Color(0xFF6B7280)),
+                            contentDescription = null
+                        )
+                    }
                     Text(
-                        "map",
-                        color = Color.White,
-                        modifier = Modifier
-                            .clickable { index = 1 }
+                        text = "map",
+                        color = Theme.color.primary,
+                        style = Theme.textStyle.bodyMedium,
                     )
                 }
 
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Image(
-                        painter = painterResource(Res.drawable.library),
-                        contentDescription = null,
+                Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.clickable { index = 2 }) {
+                    Box(
                         modifier = Modifier
+                            .size(42.dp)
                             .clip(CircleShape)
                             .background(if (index == 2) Theme.color.onPrimary else Color.Transparent),
-                    )
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Image(
+                            painter = painterResource(Res.drawable.library),
+                            colorFilter = if (index == 2) ColorFilter.tint(Theme.color.onSecondaryContainer) else ColorFilter.tint(Theme.color.secondary),
+                            contentDescription = null
+                        )
+                    }
 
                     Text(
-                        "library",
-                        color = Color.White,
-                        modifier = Modifier
-                            .clickable { index = 2 }
+                        text = "library",
+                        color = Theme.color.primary,
+                        style = Theme.textStyle.bodyMedium,
                     )
                 }
 
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Image(
-                        painter = painterResource(Res.drawable.profile),
-                        contentDescription = null,
+                Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.clickable { index = 3 }) {
+                    Box(
                         modifier = Modifier
+                            .size(42.dp)
                             .clip(CircleShape)
                             .background(if (index == 3) Theme.color.onPrimary else Color.Transparent),
-                    )
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Image(
+                            painter = painterResource(Res.drawable.profile),
+                            colorFilter = if (index == 3) ColorFilter.tint(Theme.color.onSecondaryContainer) else ColorFilter.tint(Color(0xFF6B7280)),
+                            contentDescription = null
+                        )
+                    }
 
                     Text(
-                        "profile",
-                        color = Color.White,
-                        modifier = Modifier
-                            .clickable { index = 3 }
+                        text = "profile",
+                        color = Theme.color.primary,
+                        style = Theme.textStyle.bodyMedium,
                     )
                 }
             }

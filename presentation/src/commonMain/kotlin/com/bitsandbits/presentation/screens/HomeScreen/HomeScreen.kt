@@ -5,8 +5,11 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -23,16 +26,21 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.decodeToImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import coil3.Image
 import coil3.compose.AsyncImage
 import com.bitsandbits.designsystem.theme.theme.IndoTheme
 import com.bitsandbits.designsystem.theme.theme.Theme
 import com.bitsandbits.presentation.component.BasicTextInputField
+import com.bitsandbits.presentation.component.BuildingCard
 import com.bitsandbits.presentation.component.LoadingComponent
 import com.bitsandbits.presentation.component.LocationCard
 import com.bitsandbits.presentation.navigation.Destinations
 import com.bitsandbits.presentation.navigation.LocalNavController
 import com.preat.peekaboo.image.picker.toImageBitmap
 import indo.presentation.generated.resources.Res
+import indo.presentation.generated.resources.ic_clear
+import indo.presentation.generated.resources.ic_search
+import indo.presentation.generated.resources.image_place_holder
 import indo.presentation.generated.resources.library
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.koinInject
@@ -47,61 +55,71 @@ fun HomeScreen(homeViewModel: HomeViewModel = koinInject()) {
 fun HomeScreenContent(state: HomeUiState, interactionListener: HomeInteractionListener) {
     val navController = LocalNavController.current
 
-    if (state.searchTab.isLoading) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp)
+            .statusBarsPadding()
+            .padding(top = 12.dp)
+    ) {
+        BasicTextInputField(
+            value = state.searchTab.searchQuery,
+            endIconPainter = if (state.searchTab.searchQuery.isNotBlank()) painterResource(Res.drawable.ic_clear) else null,
+            hintText = "Search . . .",
+            onValueChange = { query -> interactionListener.onChangeQuery(query = query) },
+            startIconPainter = painterResource(Res.drawable.ic_search),
+            onClickEndIcon = { interactionListener.onClickSearch() },
+        )
+        AnimatedVisibility(state.showSearchLayout) {
+            SearchLayout(state = state.searchTab)
+        }
+        AnimatedVisibility(state.showBuildingsLayout) {
+            BuildingDetailsLayout(state = state.buildingsTab)
+        }
+    }
+}
+
+@Composable
+private fun SearchLayout(state: HomeUiState.SearchTab) {
+    if (state.isLoading) {
         LoadingComponent()
     } else {
-        Column(
-            modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp).statusBarsPadding()
-                .padding(top = 12.dp)
-        ) {
-            BasicTextInputField(
-                value = state.searchTab.searchQuery,
-                endIconPainter = painterResource(
-                    Res.drawable.library
-                ),
-                hintText = "Search . . .",
-                onValueChange = { query ->
-                    interactionListener.onChangeQuery(query = query)
-                },
-                startIconPainter = painterResource(
-                    Res.drawable.library
-                ),
-                onClickEndIcon = {
-                    interactionListener.onClickSearch()
-                }
+        AnimatedVisibility(visible = state.showNumberOfResults) {
+            Text(
+                text = "Total Results Found: ${state.locations.count()}",
+                style = Theme.textStyle.labelSmall,
             )
-            val imageUrl =
-                "https://wallpapers.com/images/thumbnail/cute-cat-sunglasses-profile-picture-mw7qp9gjrp272zky.png"
-            LaunchedEffect(Unit) {
-                interactionListener.downloadImage(imageUrl)
-            }
-            val imageBitmap = state.tempImage?.toImageBitmap()
-            if (imageBitmap != null) {
-                println("TAG bob, image bitmap is: $imageBitmap")
-                Image(
-                    bitmap = imageBitmap,
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier.align(Alignment.CenterHorizontally),
-                )
-            }
-            AnimatedVisibility(visible = state.searchTab.showNumberOfResults) {
-                Text(
-                    text = "Total Results Found: ${state.searchTab.locations.count()}",
-                    style = Theme.textStyle.labelSmall,
-                    modifier = Modifier.padding(top = 10.dp)
-                )
-            }
-            LazyColumn(
-                modifier = Modifier.fillMaxWidth().padding(bottom = 80.dp, top = 12.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                val locations = state.searchTab.locations
-                items(state.searchTab.locations.count()) { locationIndex ->
+        }
+        LazyColumn(
+            modifier = Modifier.fillMaxWidth().padding(bottom = 80.dp, top = 12.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            val locations = state.locations
+            items(state.locations.count()) { locationIndex ->
 
-                    LocationCard(location = locations[locationIndex])
-                }
+                LocationCard(location = locations[locationIndex])
             }
+        }
+    }
+}
+
+@Composable
+private fun BuildingDetailsLayout(state: HomeUiState.BuildingsTab) {
+    LazyColumn(contentPadding = PaddingValues(bottom = 112.dp, top = 12.dp), verticalArrangement = Arrangement.spacedBy(20.dp)) {
+        item {
+            BuildingCard(HomeUiState.BuildingUiState(id = "", name = "Electricity Building", imageUrl = "https://i.ibb.co/qYMsBpxM/floo"))
+        }
+        item {
+            BuildingCard(HomeUiState.BuildingUiState(id = "", name = "Electricity Building", imageUrl = "https://i.ibb.co/qYMsBpxM/floor-0.png"))
+        }
+        item {
+            BuildingCard(HomeUiState.BuildingUiState(id = "", name = "Electricity Building", imageUrl = "https://i.ibb.co/dJ5bKQJM/floor-1.png"))
+        }
+        item {
+            BuildingCard(HomeUiState.BuildingUiState(id = "", name = "Electricity Building", imageUrl = "https://i.ibb.co/LhzNZqbr/floor-2.png"))
+        }
+        item {
+            BuildingCard(HomeUiState.BuildingUiState(id = "", name = "Electricity Building", imageUrl = "https://i.ibb.co/qLK13KMB/floor-3.png"))
         }
     }
 }

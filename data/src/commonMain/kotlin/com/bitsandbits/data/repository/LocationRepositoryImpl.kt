@@ -8,9 +8,9 @@ import com.bitsandbits.repository.LocationRepository
 import io.ktor.client.call.body
 import io.ktor.client.request.get
 
-class LocationRepositoryImpl(private val apiService: LocationApiService): LocationRepository {
+class LocationRepositoryImpl(private val locationApiService: LocationApiService): LocationRepository {
     override suspend fun getLocationsByName(name: String): List<Location> {
-        return apiService.getLocationsByName(name).map { it.toDomain() }
+        return locationApiService.getLocationsByName(name).map { it.toDomain() }
     }
 
     override suspend fun downloadImage(url: String?): ByteArray {

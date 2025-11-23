@@ -6,7 +6,8 @@ import com.bitsandbits.entity.Location
 data class HomeUiState(
     val searchTab: SearchTab = SearchTab(),
     val buildingsTab: BuildingsTab = BuildingsTab(),
-    val tempImage: ByteArray? = null,
+    val showSearchLayout: Boolean = false,
+    val showBuildingsLayout: Boolean = true
     ) {
     data class SearchTab(
         val searchQuery: String = "",
@@ -19,6 +20,12 @@ data class HomeUiState(
     data class BuildingsTab(
         val isLoading: Boolean = false,
         val errorMessage: String? = null,
-        val buildings: List<Building> = emptyList()
+        val buildings: List<BuildingUiState> = emptyList()
+    )
+
+    data class BuildingUiState(
+        val id: String,
+        val name: String,
+        val imageUrl: String
     )
 }

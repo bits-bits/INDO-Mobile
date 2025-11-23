@@ -39,16 +39,12 @@ class HomeViewModel(private val locationRepository: LocationRepository) :
         updateState { it.copy(it.searchTab.copy(searchQuery = query)) }
     }
 
-    override fun downloadImage(url: String) {
-        println("TAG bob, image url is: $url")
-        tryToExecute(
-            function = { locationRepository.downloadImage() },
-            onSuccess = { image ->
-                println("TAG bob, image byte array is: ${image.take(20)}")
-                updateState { it.copy(tempImage = image) }
-            },
-            onError = { e -> println("TAG bob, error downloading image: ${e.message}") }
-        )
+    override fun onClickSearchBar() {
+        updateState { it.copy(showBuildingsLayout = false, showSearchLayout = true) }
+    }
+
+    override fun onClickScreen() {
+        updateState { it.copy(showSearchLayout = false, showBuildingsLayout = true) }
     }
 
     private fun setLoading(isLoading: Boolean) {
