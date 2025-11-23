@@ -9,6 +9,7 @@ val sharedModule = module {
     includes(
         dataModule,
         domainModule,
-        presentationModule
+        presentationModule,
+        navigationModule
     )
 }

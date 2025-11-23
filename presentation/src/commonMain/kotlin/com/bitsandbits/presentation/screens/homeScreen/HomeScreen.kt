@@ -1,47 +1,30 @@
-package com.bitsandbits.presentation.screens.HomeScreen
+package com.bitsandbits.presentation.screens.homeScreen
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.BlendMode
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.graphics.decodeToImageBitmap
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
-import coil3.Image
-import coil3.compose.AsyncImage
-import com.bitsandbits.designsystem.theme.theme.IndoTheme
 import com.bitsandbits.designsystem.theme.theme.Theme
+import com.bitsandbits.presentation.common.uiState.BuildingUiState
 import com.bitsandbits.presentation.component.BasicTextInputField
-import com.bitsandbits.presentation.component.BuildingCard
+import com.bitsandbits.presentation.screens.homeScreen.components.BuildingCard
 import com.bitsandbits.presentation.component.LoadingComponent
 import com.bitsandbits.presentation.component.LocationCard
 import com.bitsandbits.presentation.navigation.Destinations
 import com.bitsandbits.presentation.navigation.LocalNavController
-import com.preat.peekaboo.image.picker.toImageBitmap
 import indo.presentation.generated.resources.Res
 import indo.presentation.generated.resources.ic_clear
 import indo.presentation.generated.resources.ic_search
-import indo.presentation.generated.resources.image_place_holder
-import indo.presentation.generated.resources.library
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.koinInject
 
@@ -69,6 +52,7 @@ fun HomeScreenContent(state: HomeUiState, interactionListener: HomeInteractionLi
             onValueChange = { query -> interactionListener.onChangeQuery(query = query) },
             startIconPainter = painterResource(Res.drawable.ic_search),
             onClickEndIcon = { interactionListener.onClickSearch() },
+            modifier = Modifier.padding(bottom = 12.dp)
         )
         AnimatedVisibility(state.showSearchLayout) {
             SearchLayout(state = state.searchTab)
@@ -105,21 +89,29 @@ private fun SearchLayout(state: HomeUiState.SearchTab) {
 
 @Composable
 private fun BuildingDetailsLayout(state: HomeUiState.BuildingsTab) {
-    LazyColumn(contentPadding = PaddingValues(bottom = 112.dp, top = 12.dp), verticalArrangement = Arrangement.spacedBy(20.dp)) {
+    val nc = LocalNavController.current
+    LazyColumn(contentPadding = PaddingValues(bottom = 112.dp), verticalArrangement = Arrangement.spacedBy(20.dp)) {
         item {
-            BuildingCard(HomeUiState.BuildingUiState(id = "", name = "Electricity Building", imageUrl = "https://i.ibb.co/qYMsBpxM/floo"))
+            BuildingCard(
+                BuildingUiState(
+                    id = "",
+                    name = "Electricity Building",
+                    imageUrl = "https://i.ibb.co/qYMsBpxM/floo"
+                ),
+                onClickArrow = { nc.navigate(Destinations.BuildingDetailsScreenRoute(id = "1234", name = "Electricity Building")) }
+            )
         }
         item {
-            BuildingCard(HomeUiState.BuildingUiState(id = "", name = "Electricity Building", imageUrl = "https://i.ibb.co/qYMsBpxM/floor-0.png"))
+            BuildingCard(BuildingUiState(id = "", name = "Electricity Building", imageUrl = "https://i.ibb.co/qYMsBpxM/floor-0.png"))
         }
         item {
-            BuildingCard(HomeUiState.BuildingUiState(id = "", name = "Electricity Building", imageUrl = "https://i.ibb.co/dJ5bKQJM/floor-1.png"))
+            BuildingCard(BuildingUiState(id = "", name = "Electricity Building", imageUrl = "https://i.ibb.co/dJ5bKQJM/floor-1.png"))
         }
         item {
-            BuildingCard(HomeUiState.BuildingUiState(id = "", name = "Electricity Building", imageUrl = "https://i.ibb.co/LhzNZqbr/floor-2.png"))
+            BuildingCard(BuildingUiState(id = "", name = "Electricity Building", imageUrl = "https://i.ibb.co/LhzNZqbr/floor-2.png"))
         }
         item {
-            BuildingCard(HomeUiState.BuildingUiState(id = "", name = "Electricity Building", imageUrl = "https://i.ibb.co/qLK13KMB/floor-3.png"))
+            BuildingCard(building = BuildingUiState(id = "", name = "Electricity Building", imageUrl = "https://i.ibb.co/qLK13KMB/floor-3.png"))
         }
     }
 }

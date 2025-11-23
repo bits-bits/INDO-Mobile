@@ -4,9 +4,9 @@ import com.bitsandbits.data.remote.api.BuildingApiService
 import com.bitsandbits.data.remote.mapper.toDomain
 import com.bitsandbits.entity.Building
 import com.bitsandbits.entity.BuildingDetails
-import com.bitsandbits.repository.BuildingRepository
+import com.bitsandbits.repository.BuildingsRepository
 
-class BuildingRepositoryImpl(private val buildingApiService: BuildingApiService) : BuildingRepository{
+class BuildingsRepositoryImpl(private val buildingApiService: BuildingApiService) : BuildingsRepository{
     override suspend fun getAllBuildings(): List<Building> {
         return buildingApiService.getAllBuildings().map { it.toDomain() }
     }

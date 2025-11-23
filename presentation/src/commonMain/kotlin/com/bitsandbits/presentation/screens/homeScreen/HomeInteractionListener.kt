@@ -1,4 +1,4 @@
-package com.bitsandbits.presentation.screens.HomeScreen
+package com.bitsandbits.presentation.screens.homeScreen
 
 interface HomeInteractionListener {
     fun onClickSearch()

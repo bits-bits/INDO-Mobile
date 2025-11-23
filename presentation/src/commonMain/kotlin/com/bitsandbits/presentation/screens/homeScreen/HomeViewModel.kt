@@ -1,11 +1,9 @@
-package com.bitsandbits.presentation.screens.HomeScreen
+package com.bitsandbits.presentation.screens.homeScreen
 
-import androidx.lifecycle.viewModelScope
 import com.bitsandbits.entity.Location
 import com.bitsandbits.presentation.Base.BaseViewModel
 import com.bitsandbits.presentation.Base.ErrorState
 import com.bitsandbits.repository.LocationRepository
-import kotlinx.coroutines.launch
 
 class HomeViewModel(private val locationRepository: LocationRepository) :
     BaseViewModel<HomeUiState, Nothing>(HomeUiState()), HomeInteractionListener {

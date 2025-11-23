@@ -1,4 +1,4 @@
-package com.bitsandbits.presentation.component
+package com.bitsandbits.presentation.screens.mainScreen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -29,9 +29,9 @@ import com.bitsandbits.designsystem.theme.theme.IndoTheme
 import com.bitsandbits.designsystem.theme.theme.Theme
 import com.bitsandbits.presentation.navigation.MainScreenDestinations
 import com.bitsandbits.presentation.navigation.index
-import com.bitsandbits.presentation.screens.HomeScreen.HomeScreen
-import com.bitsandbits.presentation.screens.MapScreen.MapScreen
-import com.bitsandbits.presentation.screens.ProfileScreen.ProfileScreen
+import com.bitsandbits.presentation.screens.homeScreen.HomeScreen
+import com.bitsandbits.presentation.screens.mapScreen.MapScreen
+import com.bitsandbits.presentation.screens.profileScreen.ProfileScreen
 import com.bitsandbits.presentation.screens.libraryScreen.LibraryScreen
 import indo.presentation.generated.resources.Res
 import indo.presentation.generated.resources.home_icon
@@ -43,7 +43,7 @@ import org.jetbrains.compose.resources.painterResource
 @Composable
 fun MainScreen(selectedTab: MainScreenDestinations = MainScreenDestinations.Home) {
     IndoTheme {
-        Box(modifier = Modifier.fillMaxSize().background(Theme.color.onSecondary)) {
+            Box(modifier = Modifier.fillMaxSize().background(Color.Cyan)) {
             var index by remember { mutableStateOf(selectedTab.index) }
             if (index == 0) {
                 HomeScreen()
@@ -63,7 +63,7 @@ fun MainScreen(selectedTab: MainScreenDestinations = MainScreenDestinations.Home
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
                     .fillMaxWidth()
-                    .height(90.dp)
+                    .height(100.dp)
                     .background(Theme.color.onSecondaryContainer)
                     .navigationBarsPadding(),
                 horizontalArrangement = Arrangement.SpaceAround,
@@ -102,7 +102,8 @@ fun MainScreen(selectedTab: MainScreenDestinations = MainScreenDestinations.Home
                     ) {
                         Image(
                             painter = painterResource(Res.drawable.map),
-                            colorFilter = if (index == 1) ColorFilter.tint(Theme.color.onSecondaryContainer) else ColorFilter.tint(Color(0xFF6B7280)),
+                            colorFilter = if (index == 1) ColorFilter.tint(Theme.color.onSecondaryContainer) else ColorFilter.tint(
+                                Theme.color.secondary),
                             contentDescription = null
                         )
                     }
