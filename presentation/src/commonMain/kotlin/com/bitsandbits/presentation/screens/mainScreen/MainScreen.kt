@@ -43,7 +43,7 @@ import org.jetbrains.compose.resources.painterResource
 @Composable
 fun MainScreen(selectedTab: MainScreenDestinations = MainScreenDestinations.Home) {
     IndoTheme {
-            Box(modifier = Modifier.fillMaxSize().background(Color.Cyan)) {
+            Box(modifier = Modifier.fillMaxSize().background(Theme.color.onSecondaryContainer)) {
             var index by remember { mutableStateOf(selectedTab.index) }
             if (index == 0) {
                 HomeScreen()

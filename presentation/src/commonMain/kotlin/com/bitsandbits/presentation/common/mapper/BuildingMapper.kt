@@ -18,7 +18,7 @@ fun BuildingDetails.toBuildingUiState(): BuildingUiState{
     return BuildingUiState(
         id = this.id,
         name = this.name,
-        description = "this building is specialized in labs and electricity students are most found there !!",
+        description = this.description,
         imageUrl = this.imageUrl
     )
 }

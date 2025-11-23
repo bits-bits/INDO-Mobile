@@ -2,6 +2,7 @@ package com.bitsandbits.presentation.screens.buildingDetailsScreen
 
 import com.bitsandbits.presentation.Base.BaseViewModel
 import com.bitsandbits.presentation.Base.ErrorState
+import com.bitsandbits.presentation.common.mapper.toBuildingDetailsUiState
 import com.bitsandbits.presentation.common.uiState.BuildingUiState
 import com.bitsandbits.repository.BuildingsRepository
 
@@ -15,13 +16,12 @@ class BuildingDetailsViewModel(
     }
 
     fun loadBuilding() {
-        println("TAG BOB, IN view model load building details name and id is: $args")
-        updateState { it.copy(building = BuildingUiState(name = args.buildingName, description = "this building is specialized in labs and electricity students are most found there !!")) }
-//        tryToExecute(
-//            function = { buildingsRepository.getBuildingDetailsById(id = args.buildingId) },
-//            onSuccess = { buildingDetails -> updateState { buildingDetails.toBuildingDetailsUiState() } },
-//            onError = { e -> onError(e) }
-//        )
+        updateState { it.copy(building = BuildingUiState(name = args.buildingName)) }
+        tryToExecute(
+            function = { buildingsRepository.getBuildingDetailsById(id = args.buildingId) },
+            onSuccess = { buildingDetails -> updateState { buildingDetails.toBuildingDetailsUiState() } },
+            onError = { e -> onError(e) }
+        )
     }
 
     private fun onError(error: ErrorState) {

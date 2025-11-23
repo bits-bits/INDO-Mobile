@@ -7,25 +7,28 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.bitsandbits.designsystem.theme.theme.Theme
 import com.bitsandbits.presentation.common.utils.EffectHandler
+import com.bitsandbits.presentation.component.FloorsPager
 import com.bitsandbits.presentation.component.ImageViewer
 import com.bitsandbits.presentation.component.IndoImageSource
 import com.bitsandbits.presentation.navigation.LocalNavController
+import com.bitsandbits.presentation.screens.buildingDetailsScreen.components.FloorCard
 import com.bitsandbits.presentation.screens.buildingDetailsScreen.components.GradientFilter
+import indo.presentation.generated.resources.Floors
 import indo.presentation.generated.resources.Res
-import indo.presentation.generated.resources.image_place_holder
 import kotlinx.coroutines.flow.SharedFlow
-import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -44,25 +47,47 @@ fun BuildingDetailsContent(
     state: BuildingDetailsUiState,
     interactions: BuildingDetailsInteractionListener
 ) {
-    Column(modifier = Modifier.fillMaxSize().background(Color.Cyan)) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Theme.color.onSecondaryContainer)
+            .verticalScroll(rememberScrollState())
+    ) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(400.dp)
         ) {
             ImageViewer(
-                IndoImageSource.PainterSource(value = painterResource(Res.drawable.image_place_holder)),
+                IndoImageSource.Url(value = state.building.imageUrl ?: ""),
                 modifier = Modifier.fillMaxSize()
             )
             GradientFilter(
                 modifier = Modifier.fillMaxWidth().height(40.dp).align(Alignment.BottomCenter),
-                color = Color.Cyan
+                color = Theme.color.onSecondaryContainer
             )
         }
-        Text(text = state.building.name, color = Color.Black, style = Theme.textStyle.labelLarge, modifier = Modifier.padding(horizontal = 16.dp))
+        Text(
+            text = state.building.name,
+            color = Color.Black,
+            style = Theme.textStyle.labelLarge,
+            modifier = Modifier.padding(horizontal = 16.dp)
+        )
         if (state.building.description != null)
-         Text(text = state.building.description, color = Theme.color.secondary, style = Theme.textStyle.bodyMedium, modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp))
+            Text(
+                text = state.building.description,
+                color = Theme.color.secondary,
+                style = Theme.textStyle.bodyMedium,
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
+            )
+        Text(
+            text = "${stringResource(Res.string.Floors)}: ${state.floors.size}",
+            color = Color.Black,
+            style = Theme.textStyle.bodyLarge,
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp)
+        )
 
+        FloorsPager(floors = state.floors)
     }
 }
 

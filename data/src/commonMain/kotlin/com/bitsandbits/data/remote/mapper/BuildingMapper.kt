@@ -10,6 +10,7 @@ fun BuildingResponse.toDomain(): Building{
         id = this.id,
         name = this.name,
         imageUrl = this.imageUrl,
+        description = "this building is specialized in labs and electricity students are most found there !!"
     )
 }
 
@@ -20,6 +21,7 @@ fun BuildingDetailsResponse.toDomain(): BuildingDetails{
         imageUrl = this.imageUrl,
         floors = this.floorsBasicDetailResponses.map { it.toDomain() },
         longitude = null,
-        latitude = null
+        latitude = null,
+        description = "this building is specialized in labs and electricity students are most found there !!"
     )
 }

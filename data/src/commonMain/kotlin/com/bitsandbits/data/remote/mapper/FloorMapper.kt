@@ -7,6 +7,6 @@ fun FloorsBasicDetailsResponse.toDomain(): Floor{
     return Floor(
         id = this.id,
         number = this.number,
-        imageUrl = null
+        imageUrl = "https://i.ibb.co/qLK13KMB/floor-3.png"
     )
 }
