@@ -26,6 +26,6 @@ fun BuildingDetails.toBuildingUiState(): BuildingUiState{
 fun BuildingDetails.toBuildingDetailsUiState(): BuildingDetailsUiState{
     return BuildingDetailsUiState(
         building = this.toBuildingUiState(),
-        floors = this.floors.map { it.toFloorUiState() }
+        floors = this.floors.map { it.toFloorUiState() },
     )
 }

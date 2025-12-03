@@ -2,6 +2,7 @@ package com.bitsandbits.presentation.screens.homeScreen.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -27,11 +28,14 @@ import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun BuildingCard(
-    building: BuildingUiState,
+    building: BuildingUiState?,
     modifier: Modifier = Modifier,
     onClickImage: () -> Unit = {},
     onClickArrow: () -> Unit = {},
+    isLoading: Boolean = false,
 ) {
+
+    println("TAG joee, building card, is dataLoading: $isLoading")
     Column(
         modifier = modifier
             .shadow(
@@ -46,12 +50,14 @@ fun BuildingCard(
 
     ) {
         ImageViewer(
-            image = IndoImageSource.Url(building.imageUrl ?: ""),
-            isLoading = false,
+            image = IndoImageSource.Url(
+                building?.imageUrl ?: ""
+            ),
             modifier = Modifier
                 .fillMaxWidth()
                 .height(260.dp)
-                .clickable(onClick = { onClickImage() })
+                .clickable(onClick = { onClickImage() }),
+            isLoading = isLoading
         )
 
 
@@ -61,10 +67,11 @@ fun BuildingCard(
             verticalAlignment = Alignment.CenterVertically
         ) {
             LabelChip(
-                text = building.name,
+                text = building?.name ?: "",
                 textStyle = Theme.textStyle.bodyLarge,
                 surfaceColor = Theme.color.onSecondary,
-                outlineColor = Theme.color.primaryContainer
+                outlineColor = Theme.color.primaryContainer,
+                isLoading = isLoading
             )
             Spacer(Modifier.weight(1f))
             ImageViewer(
