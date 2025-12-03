@@ -50,7 +50,7 @@ fun createThemeTypography(): MyWeatherTypography {
         bodySmall = TextStyle(),
         labelLarge = TextStyle(
             fontFamily = urbanistFontFamily,
-            fontWeight = FontWeight.SemiBold,
+            fontWeight = FontWeight.W900,
             fontSize = 32.sp
         ),
         labelMedium = TextStyle(

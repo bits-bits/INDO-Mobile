@@ -25,17 +25,3 @@ fun PreviewInputFiled() {
     )
 }
 
-@PreviewLightDark
-@Composable
-fun PreviewLocationCard() {
-    LocationCard(
-        location = Location(
-            id = "212",
-            name = "C201",
-            aliasName = "h301",
-            floorNumber = 2,
-            buildingName = "ssp"
-        )
-    )
-}
-

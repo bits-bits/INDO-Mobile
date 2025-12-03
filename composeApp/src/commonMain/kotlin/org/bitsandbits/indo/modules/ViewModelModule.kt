@@ -6,6 +6,6 @@ import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 
 val presentationModule = module {
-    viewModel { HomeViewModel(get()) }
-    viewModel { BuildingDetailsViewModel(buildingsRepository = get(), args = get()) }
+    viewModel { HomeViewModel(get(), get())}
+    viewModel { BuildingDetailsViewModel(buildingsRepository = get(), floorRepository = get(),args = get()) }
 }

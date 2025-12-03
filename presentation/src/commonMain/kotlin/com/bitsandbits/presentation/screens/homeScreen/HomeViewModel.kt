@@ -1,17 +1,54 @@
 package com.bitsandbits.presentation.screens.homeScreen
 
-import com.bitsandbits.entity.Location
+import androidx.lifecycle.viewModelScope
 import com.bitsandbits.presentation.Base.BaseViewModel
 import com.bitsandbits.presentation.Base.ErrorState
+import com.bitsandbits.presentation.common.mapper.toBuildingUiState
+import com.bitsandbits.presentation.common.mapper.toLocationUiState
+import com.bitsandbits.repository.BuildingsRepository
 import com.bitsandbits.repository.LocationRepository
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.launch
 
-class HomeViewModel(private val locationRepository: LocationRepository) :
+class HomeViewModel(
+    private val locationRepository: LocationRepository,
+    private val buildingsRepository: BuildingsRepository
+) :
     BaseViewModel<HomeUiState, Nothing>(HomeUiState()), HomeInteractionListener {
 
-    override fun onClickSearch() {
+    val searchQueryFlow = MutableStateFlow("")
+    init {
+        getAllBuildings()
+        observeSearchQuery()
+    }
+
+    private fun getAllBuildings() {
+        setBuildingsLoading()
+        println("TAG JOE , BUILDINGS vm FROM DOMAIN: is loading${state.value.buildingsTab.isLoading}")
+        tryToExecute(
+            function = { buildingsRepository.getAllBuildings() },
+            onSuccess = { buildings ->
+                println("TAG JOE , BUILDINGS CAM FROM DOMAIN: $buildings")
+                updateState {
+                    it.copy(
+                        buildingsTab = it.buildingsTab.copy(buildings = buildings.map { it.toBuildingUiState() })
+                    )
+                }
+                setBuildingsLoading(false)
+                println("TAG JOE , BUILDINGS vm FROM DOMAIN: is loading${state.value.buildingsTab.isLoading}")
+            },
+            onError = {e -> onError(e)}
+        )
+    }
+
+     fun searchLocation() {
         tryToExecute(
             function = {
-                setLoading(true)
+                setLocationsLoading(true)
                 locationRepository.getLocationsByName(state.value.searchTab.searchQuery)
             },
             onSuccess = { locations ->
@@ -19,88 +56,68 @@ class HomeViewModel(private val locationRepository: LocationRepository) :
                 updateState {
                     it.copy(
                         it.searchTab.copy(
-                            locations = locations,
+                            locations = locations.map { it.toLocationUiState() },
                             showNumberOfResults = true
                         )
                     )
                 }
-                setLoading(false)
+                setLocationsLoading(false)
             },
             onError = { e ->
-                setLoading(false)
+                setLocationsLoading(false)
                 onError(e)
             },
         )
     }
 
+    private fun observeSearchQuery() {
+        viewModelScope.launch {
+            searchQueryFlow
+                .debounce(DEBOUNCE_TIME)
+                .filter { it.isNotEmpty() }
+                .distinctUntilChanged()
+                .collectLatest { searchLocation() }
+        }
+    }
+
+    fun setBuildingsLoading(isLoading: Boolean = true){
+        updateState { it.copy(buildingsTab = it.buildingsTab.copy(isLoading = isLoading)) }
+    }
+
     override fun onChangeQuery(query: String) {
+        searchQueryFlow.value = query
         updateState { it.copy(it.searchTab.copy(searchQuery = query)) }
     }
 
+    override fun onClickClearQuery() {
+        onChangeQuery("")
+        updateState { it.copy(searchTab = it.searchTab.copy(locations = emptyList(), showNumberOfResults = false)) }
+        onClickScreen()
+    }
+
     override fun onClickSearchBar() {
+        println("TAG ZOZ home onClickSearchBar")
+        println("TAG FOCUS CHANGED before in view model search is: ${state.value.showSearchLayout} building is: ${state.value.showBuildingsLayout}")
         updateState { it.copy(showBuildingsLayout = false, showSearchLayout = true) }
+        println("TAG FOCUS CHANGED after in view model search is: ${state.value.showSearchLayout} building is: ${state.value.showBuildingsLayout}")
     }
 
     override fun onClickScreen() {
         updateState { it.copy(showSearchLayout = false, showBuildingsLayout = true) }
     }
 
-    private fun setLoading(isLoading: Boolean) {
+    private fun setLocationsLoading(isLoading: Boolean) {
         updateState { it.copy(it.searchTab.copy(isLoading = isLoading)) }
     }
 
     private fun onError(e: ErrorState) {
         println("TAG bob, locations: ${e.message}")
         updateState { it.copy(it.searchTab.copy(errorMessage = e.message)) }
+        updateState { it.copy(buildingsTab = it.buildingsTab.copy(isLoading = false)) }
     }
 
-    fun getFakeLocations(): List<Location> {
-        return listOf(
-            Location(
-                id = "212",
-                name = state.value.searchTab.searchQuery,
-                aliasName = "h301",
-                floorNumber = 2,
-                buildingName = "ssp"
-            ),
-            Location(
-                id = "212",
-                name = "m220",
-                aliasName = "h301",
-                floorNumber = 2,
-                buildingName = "ssp"
-
-            ),
-            Location(
-                id = "212",
-                name = "shimy",
-                aliasName = "h301",
-                floorNumber = 2,
-                buildingName = "ssp"
-            ),
-            Location(
-                id = "212",
-                name = "c102",
-                aliasName = "h301",
-                floorNumber = 2,
-                buildingName = "ssp"
-
-            ),
-            Location(
-                id = "212",
-                name = "m220",
-                aliasName = "h301",
-                floorNumber = 2,
-                buildingName = "ssp"
-            ),
-            Location(
-                id = "212",
-                name = "shimy",
-                aliasName = "h301",
-                floorNumber = 2,
-                buildingName = "ssp"
-            ),
-        )
+    companion object {
+        const val DEBOUNCE_TIME = 500L
     }
 }
 

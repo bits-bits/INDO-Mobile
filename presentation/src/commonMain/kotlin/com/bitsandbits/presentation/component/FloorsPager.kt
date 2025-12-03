@@ -1,6 +1,7 @@
 package com.bitsandbits.presentation.component
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,6 +15,11 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -28,12 +34,20 @@ import com.bitsandbits.presentation.screens.buildingDetailsScreen.components.Flo
 @Composable
 fun FloorsPager(
     modifier: Modifier = Modifier,
-    floors: List<FloorUiState>
+    floors: List<FloorUiState>,
+    onClickFloor: (String) -> Unit = {},
 ) {
     val pagerState = rememberPagerState(pageCount = { floors.size })
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+
+    LaunchedEffect(pagerState.currentPage) {
+        if (floors.isNotEmpty() && pagerState.currentPage in floors.indices) {
+            println("TAG BOB, IN view model set selected floor WITH ID in pager: ${floors[pagerState.currentPage].floorId}, name: ${floors[pagerState.currentPage].floorNumber}")
+            onClickFloor(floors[pagerState.currentPage].floorId)
+        }
+    }
+    Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = modifier) {
         HorizontalPager(
-            modifier = modifier.padding(bottom = 12.dp),
+            modifier = Modifier.padding(bottom = 12.dp),
             state = pagerState,
             contentPadding = PaddingValues(horizontal = 16.dp),
             pageSpacing = 12.dp

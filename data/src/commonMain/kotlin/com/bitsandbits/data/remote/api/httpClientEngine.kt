@@ -43,7 +43,8 @@ object NetworkClient {
             url {
                 protocol = URLProtocol.HTTP
 //                host = "localhost"      // ios
-                host = "10.0.2.2"       // android
+//                host = "10.0.2.2"       // android
+                host = "192.168.1.6"
                 port = 8080
             }
             headers.append("Accept", "application/json")

@@ -2,6 +2,7 @@ package com.bitsandbits.presentation.screens.homeScreen
 
 import com.bitsandbits.entity.Location
 import com.bitsandbits.presentation.common.uiState.BuildingUiState
+import com.bitsandbits.presentation.common.uiState.LocationUiState
 
 data class HomeUiState(
     val searchTab: SearchTab = SearchTab(),
@@ -14,7 +15,7 @@ data class HomeUiState(
         val isLoading: Boolean = false,
         val showNumberOfResults: Boolean = false,
         val errorMessage: String? = null,
-        val locations: List<Location> = emptyList()
+        val locations: List<LocationUiState> = emptyList()
     )
 
     data class BuildingsTab(

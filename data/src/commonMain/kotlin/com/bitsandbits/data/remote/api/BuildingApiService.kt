@@ -2,26 +2,24 @@ package com.bitsandbits.data.remote.api
 
 import com.bitsandbits.data.remote.dto.BuildingDetailsResponse
 import com.bitsandbits.data.remote.dto.BuildingResponse
-import com.bitsandbits.data.remote.dto.FloorsBasicDetailsResponse
-import com.bitsandbits.entity.BuildingDetails
+import com.bitsandbits.data.remote.dto.FloorResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
 
 class BuildingApiService(private val client: HttpClient = NetworkClient.client) {
     suspend fun getAllBuildings(): List<BuildingResponse> {
-        return fakeBuildings
-//        return client.get("/api/v1/$GET_ALL_BUILDINGS_ENDPOINT").body<List<BuildingResponse>>()
+        return client.get("/api/v1$GET_ALL_BUILDINGS_ENDPOINT").body<List<BuildingResponse>>()
     }
 
     suspend fun getBuildingDetailsById(id: String): BuildingDetailsResponse {
-        return BuildingDetailsResponse(
-            floorsBasicDetailResponses = fakeFloorsBasicDetailsResponse,
-            id = "1",
-            imageUrl = "https://i.ibb.co/dJ5bKQJM/floor-1.png",
-            name = "Building zoz"
-        )
-//        return client.get("/api/v1$GET_BUILDING_BY_ID_ENDPOINT/$id").body<BuildingDetailsResponse>()
+//        return BuildingDetailsResponse(
+//            floorsBasicDetailResponses = fakeFloorsBasicDetailsResponse,
+//            id = "1",
+//            imageUrl = "https://wallpapers.com/images/thumbnail/cute-cat-sunglasses-profile-picture-mw7qp9gjrp272zky.png",
+//            name = "Building zoz"
+//        )
+        return client.get("/api/v1$GET_BUILDING_BY_ID_ENDPOINT/$id").body<BuildingDetailsResponse>()
     }
 
     private companion object {
@@ -61,29 +59,34 @@ val fakeBuildings = listOf(
     fakeBuildingResponse4
 )
 
-val fakeFloorBasicDetails = FloorsBasicDetailsResponse(
+val fakeFloorBasicDetails = FloorResponse(
     id = "A",
-    number = 1
+    number = 1,
+    imageUrl = ""
 )
 
-val fakeFloorBasicDetails2 = FloorsBasicDetailsResponse(
+val fakeFloorBasicDetails2 = FloorResponse(
     id = "B",
-    number = 2
+    number = 2,
+    imageUrl = ""
 )
 
-val fakeFloorBasicDetails3 = FloorsBasicDetailsResponse(
+val fakeFloorBasicDetails3 = FloorResponse(
     id = "C",
-    number = 3
+    number = 3,
+    imageUrl = ""
 )
 
-val fakeFloorBasicDetails4 = FloorsBasicDetailsResponse(
+val fakeFloorBasicDetails4 = FloorResponse(
     id = "D",
-    number = 4
+    number = 4,
+    imageUrl = ""
 )
 
-val fakeFloorBasicDetails5 = FloorsBasicDetailsResponse(
+val fakeFloorBasicDetails5 = FloorResponse(
     id = "E",
-    number = 5
+    number = 5,
+    imageUrl = ""
 )
 
 val fakeFloorsBasicDetailsResponse = listOf(

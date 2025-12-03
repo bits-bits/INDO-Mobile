@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 
 
 @Serializable
-data class LocationResponseItem(
+data class LocationDetailsResponse(
     @SerialName("aliasName")
     val aliasName: String?,
     @SerialName("buildingName")

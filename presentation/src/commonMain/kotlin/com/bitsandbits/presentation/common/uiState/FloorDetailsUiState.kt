@@ -6,5 +6,4 @@ data class FloorDetailsUiState(
     val imageUrl: String? = null,
     val buildingName: String? = null,
     val locations: List<LocationUiState>,
-    val isSelected: Boolean = false
 )

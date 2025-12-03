@@ -7,11 +7,16 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -25,8 +30,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.unit.dp
+import coil3.Image
 import com.bitsandbits.designsystem.theme.theme.IndoTheme
 import com.bitsandbits.designsystem.theme.theme.Theme
+import com.bitsandbits.presentation.common.clickableWithoutRepel
+import com.bitsandbits.presentation.component.AppBar
 import com.bitsandbits.presentation.navigation.MainScreenDestinations
 import com.bitsandbits.presentation.navigation.index
 import com.bitsandbits.presentation.screens.homeScreen.HomeScreen
@@ -34,7 +42,9 @@ import com.bitsandbits.presentation.screens.mapScreen.MapScreen
 import com.bitsandbits.presentation.screens.profileScreen.ProfileScreen
 import com.bitsandbits.presentation.screens.libraryScreen.LibraryScreen
 import indo.presentation.generated.resources.Res
+import indo.presentation.generated.resources.alex_uni
 import indo.presentation.generated.resources.home_icon
+import indo.presentation.generated.resources.ic_profile_placeholder
 import indo.presentation.generated.resources.library
 import indo.presentation.generated.resources.map
 import indo.presentation.generated.resources.profile
@@ -43,20 +53,32 @@ import org.jetbrains.compose.resources.painterResource
 @Composable
 fun MainScreen(selectedTab: MainScreenDestinations = MainScreenDestinations.Home) {
     IndoTheme {
-            Box(modifier = Modifier.fillMaxSize().background(Theme.color.onSecondaryContainer)) {
-            var index by remember { mutableStateOf(selectedTab.index) }
-            if (index == 0) {
-                HomeScreen()
-            }
-            if (index == 1) {
-                MapScreen()
-            }
-            if (index == 2) {
-                LibraryScreen()
-            }
+        Box(modifier = Modifier.fillMaxSize().background(Theme.color.onSecondary)) {
 
-            if (index == 3) {
-                ProfileScreen()
+            var index by remember { mutableStateOf(selectedTab.index) }
+            Box(modifier = Modifier.fillMaxWidth().height(80.dp).background(Color.White))
+            Column(modifier = Modifier.padding(top = 80.dp).windowInsetsPadding(WindowInsets.safeDrawing)) {
+                if (index == 0) {
+                    HomeScreen()
+                }
+                if (index == 1) {
+                    MapScreen()
+                }
+                if (index == 2) {
+                    LibraryScreen()
+                }
+
+                if (index == 3) {
+                    ProfileScreen()
+                }
+            }
+            Box(Modifier.windowInsetsPadding(WindowInsets.safeDrawing).height(80.dp).fillMaxWidth().background(Color.White), contentAlignment = Alignment.Center){
+                AppBar("Welcome To Faculty of Engineering Alex Uni.", leadingContent = {
+                    Image(
+                        painter = painterResource(Res.drawable.ic_profile_placeholder),
+                        contentDescription = null
+                    )
+                })
             }
 
             Row(
@@ -70,7 +92,9 @@ fun MainScreen(selectedTab: MainScreenDestinations = MainScreenDestinations.Home
                 verticalAlignment = Alignment.CenterVertically
             )
             {
-                Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.clickable { index = 0 }) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier.clickableWithoutRepel(onClick = {index = 0})) {
                     Box(
                         modifier = Modifier
                             .size(42.dp)
@@ -80,7 +104,9 @@ fun MainScreen(selectedTab: MainScreenDestinations = MainScreenDestinations.Home
                     ) {
                         Image(
                             painter = painterResource(Res.drawable.home_icon),
-                            colorFilter = if (index == 0) ColorFilter.tint(Theme.color.onSecondaryContainer) else ColorFilter.tint(Color(0xFF6B7280)),
+                            colorFilter = if (index == 0) ColorFilter.tint(Theme.color.onSecondaryContainer) else ColorFilter.tint(
+                                Color(0xFF6B7280)
+                            ),
                             modifier = Modifier.size(28.dp),
                             contentDescription = null
                         )
@@ -92,7 +118,9 @@ fun MainScreen(selectedTab: MainScreenDestinations = MainScreenDestinations.Home
                     )
                 }
 
-                Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.clickable { index = 1 }) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier.clickableWithoutRepel(onClick = {index = 1})) {
                     Box(
                         modifier = Modifier
                             .size(42.dp)
@@ -103,7 +131,8 @@ fun MainScreen(selectedTab: MainScreenDestinations = MainScreenDestinations.Home
                         Image(
                             painter = painterResource(Res.drawable.map),
                             colorFilter = if (index == 1) ColorFilter.tint(Theme.color.onSecondaryContainer) else ColorFilter.tint(
-                                Theme.color.secondary),
+                                Theme.color.secondary
+                            ),
                             contentDescription = null
                         )
                     }
@@ -114,7 +143,9 @@ fun MainScreen(selectedTab: MainScreenDestinations = MainScreenDestinations.Home
                     )
                 }
 
-                Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.clickable { index = 2 }) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier.clickableWithoutRepel(onClick = {index = 2})) {
                     Box(
                         modifier = Modifier
                             .size(42.dp)
@@ -124,7 +155,9 @@ fun MainScreen(selectedTab: MainScreenDestinations = MainScreenDestinations.Home
                     ) {
                         Image(
                             painter = painterResource(Res.drawable.library),
-                            colorFilter = if (index == 2) ColorFilter.tint(Theme.color.onSecondaryContainer) else ColorFilter.tint(Theme.color.secondary),
+                            colorFilter = if (index == 2) ColorFilter.tint(Theme.color.onSecondaryContainer) else ColorFilter.tint(
+                                Theme.color.secondary
+                            ),
                             contentDescription = null
                         )
                     }
@@ -136,7 +169,9 @@ fun MainScreen(selectedTab: MainScreenDestinations = MainScreenDestinations.Home
                     )
                 }
 
-                Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.clickable { index = 3 }) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier.clickableWithoutRepel(onClick = {index = 3})) {
                     Box(
                         modifier = Modifier
                             .size(42.dp)
@@ -146,7 +181,9 @@ fun MainScreen(selectedTab: MainScreenDestinations = MainScreenDestinations.Home
                     ) {
                         Image(
                             painter = painterResource(Res.drawable.profile),
-                            colorFilter = if (index == 3) ColorFilter.tint(Theme.color.onSecondaryContainer) else ColorFilter.tint(Color(0xFF6B7280)),
+                            colorFilter = if (index == 3) ColorFilter.tint(Theme.color.onSecondaryContainer) else ColorFilter.tint(
+                                Color(0xFF6B7280)
+                            ),
                             contentDescription = null
                         )
                     }

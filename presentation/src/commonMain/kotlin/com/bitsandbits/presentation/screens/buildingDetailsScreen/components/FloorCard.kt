@@ -35,7 +35,7 @@ fun FloorCard(
         Column(
             modifier = modifier
                 .shadow(
-                    elevation = 4.dp,
+                    elevation = 1.dp,
                     shape = RoundedCornerShape(24.dp),
                     clip = false
                 )
@@ -50,7 +50,6 @@ fun FloorCard(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(180.dp)
-                    .clickable(onClick = { onClickImage() })
             )
 
 

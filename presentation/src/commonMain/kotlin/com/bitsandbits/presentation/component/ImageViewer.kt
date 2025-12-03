@@ -5,17 +5,21 @@ import androidx.compose.foundation.gestures.rememberTransformableState
 import androidx.compose.foundation.gestures.transformable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.decodeToImageBitmap
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
+import com.bitsandbits.presentation.common.shimmerEffect
 import indo.presentation.generated.resources.Res
 import indo.presentation.generated.resources.image_place_holder
 import org.jetbrains.compose.resources.painterResource
@@ -26,11 +30,19 @@ fun ImageViewer(
     image: IndoImageSource?,
     modifier: Modifier = Modifier,
     isLoading: Boolean = false,
-    onLoading: @Composable () -> Unit = {},
-    onError: @Composable () -> Unit = { Image(painterResource(Res.drawable.image_place_holder), contentDescription = null, modifier = Modifier.fillMaxSize())},
+    onLoading: @Composable () -> Unit = { Box(modifier = Modifier.fillMaxSize().shimmerEffect()) },
+    onError: @Composable () -> Unit = {
+        Image(
+            painterResource(Res.drawable.image_place_holder),
+            contentDescription = null,
+            modifier = Modifier.fillMaxSize(),
+            contentScale = ContentScale.FillBounds,
+        )
+    },
 ) {
     var isImageLoading by remember { mutableStateOf(true) }
     var isError by remember { mutableStateOf(false) }
+    println("TAG HOB, indo image viewer, image viewer is image Loading: $isImageLoading")
 
     when (image) {
         is IndoImageSource.Url -> {
@@ -48,11 +60,16 @@ fun ImageViewer(
                         isImageLoading = false
                         isError = true
                     },
+                    onSuccess = {
+                        isImageLoading = false
+                    }
                 )
                 when {
-                    isImageLoading || isLoading -> onLoading()
+                    isImageLoading  || isLoading -> {
+                        onLoading()
+                    }
+
                     isError -> {
-                        println("TAG HOB, ON ERROR")
                         onError()
                     }
                 }
@@ -85,35 +102,6 @@ fun ImageViewer(
                 modifier = modifier.fillMaxSize(),
             )
         }
-    }
-}
-
-@Composable
-fun ZoomableImage(
-    modifier: Modifier = Modifier,
-    content: @Composable () -> Unit
-) {
-    val scale = remember { mutableStateOf(1f) }
-    val offsetX = remember { mutableStateOf(0f) }
-    val offsetY = remember { mutableStateOf(0f) }
-
-    val state = rememberTransformableState { zoomChange, panChange, _ ->
-        scale.value *= zoomChange
-        offsetX.value += panChange.x
-        offsetY.value += panChange.y
-    }
-
-    Box(
-        modifier = modifier
-            .transformable(state)
-            .graphicsLayer(
-                scaleX = scale.value,
-                scaleY = scale.value,
-                translationX = offsetX.value,
-                translationY = offsetY.value
-            )
-    ) {
-        content()
     }
 }
 

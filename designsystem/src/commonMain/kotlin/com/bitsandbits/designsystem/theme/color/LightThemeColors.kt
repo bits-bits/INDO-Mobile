@@ -8,7 +8,9 @@ val lightThemeColors = IndoColors(
     primaryContainer = Color(0xFFDBEAFE),
     onPrimaryContainer = Color(0xFF0F172A),
     secondary = Color(0xFF6B7280),
-    onSecondary = Color(0xEEF9FAFB),
+    onSecondary = Color(0xFFE9F1F3),
     secondaryContainer = Color(0xFFCCFBF1),
     onSecondaryContainer = Color(0xFFFFFFFF),
+    shimmerPrimary = Color(0xFFF0F0F0),
+    shimmerSecondary = Color(0xFFE0E0E0)
 )

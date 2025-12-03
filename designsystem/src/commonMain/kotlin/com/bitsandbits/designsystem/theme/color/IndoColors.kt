@@ -12,6 +12,8 @@ data class IndoColors(
     val onSecondary: Color,
     val secondaryContainer: Color,
     val onSecondaryContainer: Color,
+    val shimmerPrimary: Color,
+    val shimmerSecondary: Color,
 )
 
 internal val LocalMyWeatherColor = staticCompositionLocalOf { lightThemeColors }
