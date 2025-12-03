@@ -56,7 +56,9 @@ kotlin {
             implementation(libs.androidx.navigation.compose)
 
             // koin
-            implementation(libs.koin.compose)
+//            implementation(libs.koin.compose)
+            implementation(libs.bundles.koin.compose)
+
 
             // coil
             implementation(libs.coil.compose)

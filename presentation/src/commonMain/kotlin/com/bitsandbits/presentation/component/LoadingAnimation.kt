@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun LoadingComponent(
     modifier: Modifier = Modifier,
-    backgroundColor: Color = Color.Black.copy(alpha = 0.3f),
+    backgroundColor: Color = Color.Transparent,
     size: Int = 48
 ) {
     Box(
@@ -23,7 +23,7 @@ fun LoadingComponent(
     ) {
         CircularProgressIndicator(
             modifier = Modifier.size(size.dp),
-            color = Color.White
+            color = Color.Red
         )
     }
 }

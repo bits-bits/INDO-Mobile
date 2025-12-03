@@ -11,4 +11,6 @@ val darkThemeColors = IndoColors(
     onSecondary = Color(0xFF001F24),
     secondaryContainer = Color(0xFF083344),
     onSecondaryContainer = Color(0xFFB9F9FF),
+    shimmerPrimary = Color(0xFFF0F0F0),
+    shimmerSecondary = Color(0xFFE0E0E0)
 )

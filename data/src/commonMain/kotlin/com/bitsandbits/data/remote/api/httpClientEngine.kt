@@ -15,8 +15,6 @@ import io.ktor.http.URLProtocol
 expect fun httpClientEngine(): HttpClientEngine
 
 object NetworkClient {
-//    private const val BASE_URL = "http://10.0.2.2:8080"   // android emulator
-    private const val BASE_URL = "http://localhost:8080"    // ios emulator
     private const val USERNAME = "user"
     private const val PASSWORD = "123456"
 
@@ -44,7 +42,9 @@ object NetworkClient {
         defaultRequest {
             url {
                 protocol = URLProtocol.HTTP
-                host = "localhost"
+//                host = "localhost"      // ios
+//                host = "10.0.2.2"       // android
+                host = "192.168.1.6"
                 port = 8080
             }
             headers.append("Accept", "application/json")

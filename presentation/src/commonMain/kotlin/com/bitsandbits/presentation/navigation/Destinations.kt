@@ -26,7 +26,7 @@ sealed interface Destinations {
     data object ProfileScreeRoute : Destinations
 
     @Serializable
-    data object SeeAllScreenRoute : Destinations
+    data class BuildingDetailsScreenRoute(val id: String, val name: String) : Destinations
 }
 
 sealed interface MainScreenDestinations {

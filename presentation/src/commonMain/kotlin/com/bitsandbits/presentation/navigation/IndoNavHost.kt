@@ -10,7 +10,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.bitsandbits.designsystem.theme.theme.IndoTheme
-import com.bitsandbits.presentation.component.MainScreen
+import com.bitsandbits.presentation.screens.buildingDetailsScreen.BuildingDetailsScreen
+import com.bitsandbits.presentation.screens.mainScreen.MainScreen
 
 val LocalNavController = staticCompositionLocalOf<NavController> {
     error("No NavController provided")
@@ -33,6 +34,7 @@ fun IndoNavHost(startDestination: Destinations = Destinations.HomeScreenRoute){
                 composable<Destinations.MapScreenRoute> { MainScreen(selectedTab = MainScreenDestinations.Map) }
                 composable<Destinations.LibraryScreenRoute> { MainScreen(selectedTab = MainScreenDestinations.Library) }
                 composable<Destinations.ProfileScreeRoute> { MainScreen(selectedTab = MainScreenDestinations.Profile) }
+                composable<Destinations.BuildingDetailsScreenRoute> { BuildingDetailsScreen() }
 
             }
         }
