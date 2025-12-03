@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <resources>
     <string name="Floors">الادوار</string>
+    <string name="locations">الاماكن</string>
+
 </resources>
