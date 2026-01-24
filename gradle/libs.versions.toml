@@ -13,8 +13,12 @@ composeMultiplatform = "1.9.1"
 junit = "4.13.2"
 kotlin = "2.2.20"
 kotlinStdlib = "2.2.20"
+krossmap = "1.3"
 ktorClientLogging = "3.3.1"
 lottie = "6.6.10"
+maplibreCompose = "0.12.1"
+#maplibreCompose = "0.11.1"
+navigationCore = "5.0.0-pre10"
 navigator = "1.0.0"
 runner = "1.7.0"
 core = "1.7.0"
@@ -29,6 +33,10 @@ kotlinx-serialization = "1.6.3"
 resources = "0.25.0"
 moko = "0.18.0"
 koin-core = "4.1.1"
+buildkonfig = "0.15.1"
+kotlinx-coroutines = "1.10.2"
+playServicesLocation = "21.3.0"
+toolsCore = "1.0.0-alpha14"
 
 
 [libraries]
@@ -47,9 +55,12 @@ kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib", versio
 androidx-runner = { group = "androidx.test", name = "runner", version.ref = "runner" }
 androidx-core = { group = "androidx.test", name = "core", version.ref = "core" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDatetime" }
+krossmap = { module = "io.github.farimarwat:krossmap", version.ref = "krossmap" }
 ktor-client-auth = { module = "io.ktor:ktor-client-auth", version.ref = "ktor" }
 ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktorClientLogging" }
+maplibre-compose = { module = "org.maplibre.compose:maplibre-compose", version.ref = "maplibreCompose" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+navigation-core = { module = "org.maplibre.navigation:navigation-core", version.ref = "navigationCore" }
 navigator = { module = "cafe.adriel.voyager:navigator", version.ref = "navigator" }
 tab-navigator = { module = "cafe.adriel.voyager:tab-navigator", version.ref = "navigator" }
 transitions = { module = "cafe.adriel.voyager:transitions", version.ref = "navigator" }
@@ -67,6 +78,8 @@ koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", versi
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin-core" }
 koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koin-core" }
 
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
+
 
 
 koin-compose-viewmodel = { module = "io.insert-koin:koin-compose-viewmodel", version.ref = "koin-core" }
@@ -78,6 +91,8 @@ peekaboo-image-picker = { module = "io.github.onseok:peekaboo-image-picker", ver
 resources = { module = "dev.icerock.moko:resources", version.ref = "resources" }
 moko-permissions = { module = "dev.icerock.moko:permissions", version.ref = "moko" }
 moko-permissions-compose = { module = "dev.icerock.moko:permissions-compose", version.ref = "moko" }
+play-services-location = { group = "com.google.android.gms", name = "play-services-location", version.ref = "playServicesLocation" }
+androidx-tools-core = { group = "androidx.privacysandbox.tools", name = "tools-core", version.ref = "toolsCore" }
 
 
 
@@ -92,6 +107,8 @@ androidKotlinMultiplatformLibrary = { id = "com.android.kotlin.multiplatform.lib
 androidLint = { id = "com.android.lint", version.ref = "agp" }
 kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+buildkonfig = { id = "com.codingfeline.buildkonfig", version.ref = "buildkonfig" }
+cocoapods = { id = "org.jetbrains.kotlin.native.cocoapods", version.ref = "kotlin" }
 
 [bundles]
 koin-compose = [

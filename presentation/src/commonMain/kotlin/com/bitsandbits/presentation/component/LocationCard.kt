@@ -31,11 +31,14 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil3.decode.ImageSource
 import com.bitsandbits.designsystem.theme.theme.Theme
 import com.bitsandbits.entity.Location
 import com.bitsandbits.presentation.common.uiState.LocationUiState
+import com.bitsandbits.presentation.navigation.Destinations
+import com.bitsandbits.presentation.navigation.LocalNavController
 import indo.presentation.generated.resources.Res
 import indo.presentation.generated.resources.drop_down_arrow
 import indo.presentation.generated.resources.image_place_holder
@@ -46,9 +49,11 @@ fun LocationCard(modifier: Modifier = Modifier, location: LocationUiState?) {
 
     if (location != null) {
         println("TAG JOE, location card, location is: $location")
+        val z = remember { mutableStateOf(CardConstants.MIN_CARD_HEIGHT) }
+        val y by mutableStateOf(CardConstants.MIN_CARD_HEIGHT)
         var cardHeight by remember { mutableStateOf(CardConstants.MIN_CARD_HEIGHT) }
         val animatedHeight by animateDpAsState(cardHeight.dp, animationSpec = tween(300))
-
+        val navController = LocalNavController.current
 
         Column(
             modifier = modifier
@@ -60,21 +65,36 @@ fun LocationCard(modifier: Modifier = Modifier, location: LocationUiState?) {
                         if (cardHeight == CardConstants.MIN_CARD_HEIGHT) CardConstants.MAX_CARD_HEIGHT else CardConstants.MIN_CARD_HEIGHT
                 })
                 .background(Color.White)
-                .padding(horizontal = 8.dp)
-        ,
+                .padding(horizontal = 8.dp),
         ) {
             Row() {
-                Text(
-                    text = location.aliasName ?: location.name,
-                    style = Theme.textStyle.bodyMedium,
-                    modifier = Modifier.padding(top = 10.dp)
-                )
+                if (cardHeight == CardConstants.MAX_CARD_HEIGHT){
+                    Text(
+                        text = location.name.ifEmpty { location.aliasName ?:"N/A" },
+                        style = Theme.textStyle.bodyMedium,
+                        modifier = Modifier.padding(top = 10.dp, end = 4.dp).weight(1f),
+                    )
+                }else{
+                    Text(
+                        text = location.name.ifEmpty { location.aliasName ?:"N/A" },
+                        style = Theme.textStyle.bodyMedium,
+                        modifier = Modifier.padding(top = 10.dp, end = 4.dp).weight(1f),
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
+//                Text(
+//                    text = location.name.ifEmpty { location.aliasName ?:"N/A" },
+//                    style = Theme.textStyle.bodyMedium,
+//                    modifier = Modifier.padding(top = 10.dp, end = 4.dp).weight(1f),
+//                    maxLines = 1,
+//                    overflow = TextOverflow.Ellipsis
+//                )
 
-                Spacer(Modifier.weight(1f))
                 Image(
                     painter = painterResource(Res.drawable.drop_down_arrow),
                     contentDescription = null,
-                    modifier = Modifier.size(24.dp).padding(top = 12.dp).then(
+                    modifier = Modifier.size(24.dp).padding(top = 12.dp, start = 4.dp).then(
                         if (cardHeight == CardConstants.MAX_CARD_HEIGHT) Modifier.rotate(180f) else Modifier
                     )
                 )
@@ -151,7 +171,7 @@ fun LocationCard(modifier: Modifier = Modifier, location: LocationUiState?) {
                                 .height(40.dp)
                                 .clip(RoundedCornerShape(12.dp))
                                 .background(Color.Blue.copy(alpha = 0.5f))
-                                .clickable(onClick = {})
+                                .clickable(onClick = { navController.navigate(Destinations.MapScreenRoute(latitude = location.latitude, longitude = location.longitude, locationId = location.id))})
                                 .padding(horizontal = 8.dp),
                             contentAlignment = Alignment.Center
                         ) {
@@ -170,6 +190,6 @@ fun LocationCard(modifier: Modifier = Modifier, location: LocationUiState?) {
 
 
 object CardConstants {
-    const val MAX_CARD_HEIGHT = 420
+    const val MAX_CARD_HEIGHT = 450
     const val MIN_CARD_HEIGHT = 40
 }

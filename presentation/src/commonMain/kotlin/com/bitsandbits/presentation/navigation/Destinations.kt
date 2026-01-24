@@ -17,7 +17,7 @@ sealed interface Destinations {
     data object HomeScreenRoute : Destinations
 
     @Serializable
-    data object MapScreenRoute : Destinations
+    data class MapScreenRoute(val latitude: Double?, val longitude: Double?, val locationId: String?) : Destinations
 
     @Serializable
     data object LibraryScreenRoute : Destinations

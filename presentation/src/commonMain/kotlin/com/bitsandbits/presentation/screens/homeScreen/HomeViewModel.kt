@@ -22,6 +22,10 @@ class HomeViewModel(
 
     val searchQueryFlow = MutableStateFlow("")
     init {
+        loadData()
+    }
+
+    fun loadData(){
         getAllBuildings()
         observeSearchQuery()
     }
@@ -46,7 +50,8 @@ class HomeViewModel(
     }
 
      fun searchLocation() {
-        tryToExecute(
+         println("TAG ZOZ home onClickSearchBar onChangeQuery searchLocation, state is: ${state.value.searchTab.searchQuery}")
+         tryToExecute(
             function = {
                 setLocationsLoading(true)
                 locationRepository.getLocationsByName(state.value.searchTab.searchQuery)
@@ -85,6 +90,7 @@ class HomeViewModel(
     }
 
     override fun onChangeQuery(query: String) {
+        println("TAG ZOZ home onClickSearchBar onChangeQuery: query is $query, state is: ${state.value.searchTab.searchQuery}")
         searchQueryFlow.value = query
         updateState { it.copy(it.searchTab.copy(searchQuery = query)) }
     }
@@ -117,7 +123,7 @@ class HomeViewModel(
     }
 
     companion object {
-        const val DEBOUNCE_TIME = 500L
+        const val DEBOUNCE_TIME = 1000L
     }
 }
 

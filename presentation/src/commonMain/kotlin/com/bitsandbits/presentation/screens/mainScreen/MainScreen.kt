@@ -35,6 +35,8 @@ import com.bitsandbits.designsystem.theme.theme.IndoTheme
 import com.bitsandbits.designsystem.theme.theme.Theme
 import com.bitsandbits.presentation.common.clickableWithoutRepel
 import com.bitsandbits.presentation.component.AppBar
+import com.bitsandbits.presentation.navigation.Destinations
+import com.bitsandbits.presentation.navigation.LocalNavController
 import com.bitsandbits.presentation.navigation.MainScreenDestinations
 import com.bitsandbits.presentation.navigation.index
 import com.bitsandbits.presentation.screens.homeScreen.HomeScreen
@@ -52,6 +54,7 @@ import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun MainScreen(selectedTab: MainScreenDestinations = MainScreenDestinations.Home) {
+    val navController = LocalNavController.current
     IndoTheme {
         Box(modifier = Modifier.fillMaxSize().background(Theme.color.onSecondary)) {
 

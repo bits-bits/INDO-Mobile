@@ -6,5 +6,7 @@ data class LocationUiState(
     val aliasName: String? = null,
     val imageUrl: String? = null,
     val buildingName: String? = null,
-    val floorNumber: Number? = null
+    val floorNumber: Number? = null,
+    val latitude: Double? = null,
+    val longitude: Double? = null
 )

@@ -1,11 +1,31 @@
 import org.gradle.kotlin.dsl.projects
+import java.io.FileInputStream
+import java.util.Properties
+import com.codingfeline.buildkonfig.compiler.FieldSpec.Type
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidKotlinMultiplatformLibrary)
     alias(libs.plugins.androidLint)
     kotlin("plugin.serialization") version "1.9.20"
+    id("com.codingfeline.buildkonfig")
 }
+
+val secretsFile = rootProject.file("secrets.properties")
+val secrets = Properties().apply {
+    if (secretsFile.exists()) {
+        load(FileInputStream(secretsFile))
+    }
+}
+
+println("=== BuildKonfig Debug ===")
+println("Secrets file exists: ${secretsFile.exists()}")
+println("Secrets file path: ${secretsFile.absolutePath}")
+println("USERNAME: ${secrets.getProperty("USERNAME", "NOT_FOUND")}")
+println("PASSWORD: ${secrets.getProperty("PASSWORD", "NOT_FOUND")}")
+println("HOST: ${secrets.getProperty("HOST", "NOT_FOUND")}")
+println("PORT: ${secrets.getProperty("PORT", "NOT_FOUND")}")
+println("========================")
 
 kotlin {
 
@@ -74,6 +94,8 @@ kotlin {
 
                 implementation(libs.ktor.client.auth)
 
+                implementation(libs.kotlinx.coroutines.core)
+
             }
         }
 
@@ -87,6 +109,7 @@ kotlin {
             dependencies {
                 // Ktor
                 api(libs.ktor.client.okhttp)
+                implementation(libs.play.services.location)
             }
         }
 
@@ -106,4 +129,16 @@ kotlin {
         }
     }
 
+}
+
+
+buildkonfig {
+    packageName = "com.bitsandbits.config"
+
+    defaultConfigs {
+        buildConfigField(Type.STRING, "USERNAME", secrets.getProperty("USERNAME", ""))
+        buildConfigField(Type.STRING, "PASSWORD", secrets.getProperty("PASSWORD", ""))
+        buildConfigField(Type.STRING, "HOST", secrets.getProperty("HOST", "localhost"))
+        buildConfigField(Type.INT, "PORT", secrets.getProperty("PORT", "8080"))
+    }
 }

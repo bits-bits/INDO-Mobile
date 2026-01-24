@@ -7,12 +7,25 @@ plugins {
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinx.serialization)
+    alias(libs.plugins.cocoapods)
 }
 
 kotlin {
     androidTarget {
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_11)
+        }
+    }
+
+    cocoapods {
+        summary = "Small summary about the project."
+        homepage = "https://indo.com"
+        version = "1.0"
+        ios.deploymentTarget = "15.4"         // set as needed
+        podfile = project.file("../iosApp/Podfile")
+        framework {
+            baseName = "presentation"
+            isStatic = true
         }
     }
 
@@ -66,6 +79,9 @@ kotlin {
 
             implementation(libs.peekaboo.ui)
             implementation(libs.peekaboo.image.picker)
+
+            // maps
+            implementation(libs.maplibre.compose)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
@@ -85,4 +101,3 @@ android {
 dependencies {
     debugImplementation(compose.uiTooling)
 }
-
