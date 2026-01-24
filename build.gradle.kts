@@ -10,4 +10,5 @@ plugins {
     alias(libs.plugins.androidLint) apply false
     alias(libs.plugins.kotlinAndroid) apply false
     alias(libs.plugins.cocoapods) apply false
+    id("com.codingfeline.buildkonfig") version "0.17.1" apply false
 }

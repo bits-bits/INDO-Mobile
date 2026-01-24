@@ -36,6 +36,7 @@ koin-core = "4.1.1"
 buildkonfig = "0.15.1"
 kotlinx-coroutines = "1.10.2"
 playServicesLocation = "21.3.0"
+toolsCore = "1.0.0-alpha14"
 
 
 [libraries]
@@ -91,6 +92,7 @@ resources = { module = "dev.icerock.moko:resources", version.ref = "resources" }
 moko-permissions = { module = "dev.icerock.moko:permissions", version.ref = "moko" }
 moko-permissions-compose = { module = "dev.icerock.moko:permissions-compose", version.ref = "moko" }
 play-services-location = { group = "com.google.android.gms", name = "play-services-location", version.ref = "playServicesLocation" }
+androidx-tools-core = { group = "androidx.privacysandbox.tools", name = "tools-core", version.ref = "toolsCore" }
 
 
 
