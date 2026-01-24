@@ -74,6 +74,8 @@ kotlin {
 
                 implementation(libs.ktor.client.auth)
 
+                implementation(libs.kotlinx.coroutines.core)
+
             }
         }
 
@@ -87,6 +89,7 @@ kotlin {
             dependencies {
                 // Ktor
                 api(libs.ktor.client.okhttp)
+                implementation(libs.play.services.location)
             }
         }
 

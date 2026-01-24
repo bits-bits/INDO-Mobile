@@ -1,5 +1,6 @@
 package com.bitsandbits.presentation.Base
 
+import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CoroutineDispatcher
@@ -13,8 +14,10 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -39,19 +42,23 @@ abstract class BaseViewModel<S, E>(initialState: S) : ViewModel() {
         }
     }
 
-    protected fun <T> tryToCollect(
-        function: suspend () -> Flow<T>,
-        onNewValue: suspend (T) -> Unit,
-        onError: (ErrorState) -> Unit,
-        scope: CoroutineScope = viewModelScope,
-        dispatcher: CoroutineDispatcher = Dispatchers.IO
-    ): Job =
-        runWithErrorHandling(onError, scope, dispatcher) {
-            function().distinctUntilChanged().collectLatest {
-                onNewValue(it)
-            }
-        }
 
+    protected fun <T> tryToCollect(
+        onStart: () -> Unit = {},
+        collect: () -> Flow<T>,
+        onCollect: suspend (T) -> Unit,
+        onError: (Throwable) -> Unit = {},
+        coroutineScope: CoroutineScope = viewModelScope,
+        dispatcher: CoroutineDispatcher = Dispatchers.IO,
+    ): Job {
+        val exceptionHandler = CoroutineExceptionHandler { _, throwable -> onError(throwable) }
+        return coroutineScope.launch(exceptionHandler + dispatcher) {
+            collect()
+                .onStart { onStart() }
+                .catch { onError(it) }
+                .collect { onCollect(it) }
+        }
+    }
     protected fun updateState(updater: (S) -> S) {
         _state.update(updater)
     }

@@ -15,6 +15,7 @@ import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -29,11 +30,15 @@ import com.bitsandbits.presentation.navigation.Destinations
 import com.bitsandbits.presentation.navigation.LocalNavController
 import com.bitsandbits.presentation.screens.homeScreen.components.SearchBar
 import org.koin.compose.koinInject
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-fun HomeScreen(homeViewModel: HomeViewModel = koinInject()) {
+fun HomeScreen(homeViewModel: HomeViewModel = koinViewModel()) {
     val state by homeViewModel.state.collectAsState()
     HomeScreenContent(state, homeViewModel as HomeInteractionListener)
+    LaunchedEffect(Unit){
+        homeViewModel.loadData()
+    }
 }
 
 @Composable
@@ -42,11 +47,6 @@ fun HomeScreenContent(state: HomeUiState, interactionListener: HomeInteractionLi
         modifier = Modifier
             .fillMaxSize()
             .padding(horizontal = 16.dp)
-//            .clickable(
-//                interactionSource = remember { MutableInteractionSource() },
-//                indication = null
-//            ) {
-//                interactionListener.onClickScreen()
             .clickableWithoutRepel(onClick = interactionListener::onClickScreen)
     ) {
         LazyColumn(contentPadding = PaddingValues(bottom = 112.dp)) {

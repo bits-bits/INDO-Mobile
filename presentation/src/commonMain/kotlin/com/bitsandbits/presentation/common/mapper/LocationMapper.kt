@@ -10,6 +10,8 @@ fun Location.toLocationUiState(): LocationUiState {
         aliasName = this.aliasName,
         imageUrl = this.floorImageUrl,
         buildingName = this.buildingName,
-        floorNumber = this.floorNumber
+        floorNumber = this.floorNumber,
+        latitude = this.latitude,
+        longitude = this.longitude
     )
 }

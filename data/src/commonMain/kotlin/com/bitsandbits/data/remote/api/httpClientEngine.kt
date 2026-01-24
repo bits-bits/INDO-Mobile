@@ -44,7 +44,13 @@ object NetworkClient {
                 protocol = URLProtocol.HTTP
 //                host = "localhost"      // ios
 //                host = "10.0.2.2"       // android
-                host = "192.168.1.6"
+//                host = "10.176.4.132"       // android
+//                host = "172.20.10.2"       // android
+//                host = "10.220.39.86"       // android
+//                host = "192.168.1.3"        // home wifi
+//                host = "192.168.1.4"        // home wifi
+//                host = "10.30.52.188"        // home wifi
+                host = "172.20.10.2"        // home wifi
                 port = 8080
             }
             headers.append("Accept", "application/json")

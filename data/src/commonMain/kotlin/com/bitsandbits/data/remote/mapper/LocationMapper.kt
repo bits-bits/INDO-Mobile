@@ -7,10 +7,12 @@ import com.bitsandbits.entity.Location
 fun LocationDetailsResponse.toDomain(): Location{
     return Location(
         id = this.id,
-        name = this.name,
+        name = this.name ?:"",
         aliasName = this.aliasName,
         floorNumber = this.floorNumber,
-        buildingName = this.buildingName
+        buildingName = this.buildingName,
+        latitude = null,
+        longitude = null
     )
 }
 
@@ -20,6 +22,8 @@ fun LocationResponse.toDomain(): Location {
         name = this.name ?:"",
         aliasName = this.aliasName,
         floorNumber = 0,
-        buildingName = ""
+        buildingName = "",
+        latitude = null,
+        longitude = null
     )
 }

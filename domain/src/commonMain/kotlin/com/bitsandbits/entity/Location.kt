@@ -6,5 +6,7 @@ data class Location(
     val aliasName: String?,
     val floorNumber: Int,
     val buildingName: String,
-    val floorImageUrl: String? = null
+    val floorImageUrl: String? = null,
+    val latitude: Double?,
+    val longitude: Double?
 )

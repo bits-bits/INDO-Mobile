@@ -4,6 +4,7 @@
     <dict>
         <key>CADisableMinimumFrameDurationOnPhone</key>
         <true/>
+
         <key>NSAppTransportSecurity</key>
         <dict>
             <key>NSAllowsLocalNetworking</key>
@@ -11,5 +12,10 @@
             <key>NSAllowsArbitraryLoads</key>
             <true/>
         </dict>
+
+        <key>NSLocationWhenInUseUsageDescription</key>
+        <string>We need your location to show your position on the map</string>
+        <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+        <string>We need your location to show your position on the map</string>
     </dict>
 </plist>
