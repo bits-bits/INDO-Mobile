@@ -9,6 +9,6 @@ import kotlin.uuid.Uuid
 interface LocationRepository {
     suspend fun getLocationsByName(name: String): List<Location>
     suspend fun downloadImage(url: String? = null): ByteArray
-    suspend fun getRouteToLocation(start: Point, locationId: String): List<Point>
+    suspend fun getRouteToLocation(start: Point, locationId: String): Pair<List<Point>, List<Point>>
     suspend fun getRouteBetweenTwoPoints(start: Point, end: Point): List<Point>
 }

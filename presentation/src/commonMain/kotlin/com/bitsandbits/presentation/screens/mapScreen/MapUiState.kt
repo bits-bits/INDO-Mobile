@@ -9,6 +9,7 @@ data class MapUiState(
     val startPoint: PointUiState? = null,
     val currentPositionPoint: PointUiState? = null,
     val initialUserPosition: PointUiState? = null,
+    val usedCheckPoints: List<PointUiState> = emptyList(),
     val endPoint: PointUiState? = null,
     val destinationLocationId: String? = null
 )

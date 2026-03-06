@@ -30,13 +30,17 @@ class LocationRepositoryImpl(private val locationApiService: LocationApiService)
     override suspend fun getRouteToLocation(
         start: Point,
         locationId: String
-    ): List<Point> {
+    ): Pair<List<Point>, List<Point>> {
         val response = locationApiService.getRouteToLocation(
             startLat = start.latitude,
             startLong = start.longitude,
             locationId = locationId
-        ).coordinates
-        return response.map { it.toDomain() }
+        )
+
+        val totalRoute = response.first().coordinates.map { it.toDomain() }
+        val checkPoints = response[1].coordinates.map { it.toDomain() }
+
+        return Pair(totalRoute, checkPoints)
     }
 
     override suspend fun getRouteBetweenTwoPoints(

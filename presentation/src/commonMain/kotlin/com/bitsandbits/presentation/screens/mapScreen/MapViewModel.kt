@@ -23,8 +23,8 @@ class MapViewModel(
         getCurrentUserLocation()
     }
 
-    fun getDestination(){
-        if (args.latitude != null && args.longitude != null){
+    fun getDestination() {
+        if (args.latitude != null && args.longitude != null) {
             updateState {
                 it.copy(
                     endPoint = PointUiState(
@@ -37,8 +37,17 @@ class MapViewModel(
                 )
             }
         }
-        if (args.locationId != null){
-            updateState { it.copy(destinationLocationId = args.locationId) }
+        if (args.locationId != null) {
+            updateState {
+                it.copy(
+                    destinationLocationId = args.locationId,
+                    endPoint = PointUiState(
+                        latitude = 31.2074193,
+                        longitude = 29.9243365,
+                        type = PointType.DESTINATION
+                    )
+                )
+            }
         }
         println("TAG BOB LOL DESTINATION LOCATION ID IS: ${state.value.destinationLocationId}")
     }
@@ -96,14 +105,19 @@ class MapViewModel(
                     start = getStartDestination(),
                     locationId = state.value.destinationLocationId!!
                 )
+
 //                locationRepository.getRouteBetweenTwoPoints(
 //                    start = getStartDestination(),
 //                    end = getEndDestination()
 //                )
             },
-            onSuccess = { route ->
-                println("TAG VM current location get route from domain is: $route")
-                updateState { it.copy(points = route.map { point -> point.toPointUiState() }) }
+            onSuccess = { routes ->
+                println("TAG VM current location get route from domain is: $routes")
+                updateState {
+                    it.copy(
+                        points = routes.first.map { point -> point.toPointUiState() },
+                        usedCheckPoints = routes.second.map { point -> point.toPointUiState() })
+                }
                 println("TAG VM current location get route from domain  after map: ${state.value.points}")
 
             },

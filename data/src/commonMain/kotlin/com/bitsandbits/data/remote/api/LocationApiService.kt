@@ -30,10 +30,10 @@ class LocationApiService(private val client: HttpClient = NetworkClient.client) 
         startLat: Double,
         startLong: Double,
         locationId: String
-    ): RouteResponse {
+    ): List<RouteResponse> {
         return client.get("/api/v1/route/location") {
             parameter("from", "$startLat,$startLong")
             parameter("toLocationId", locationId)
-        }.body<RouteResponse>()
+        }.body<List<RouteResponse>>()
     }
 }

@@ -66,8 +66,8 @@ fun MapWithRoute(
         mapUiState.points.map { it.toPosition() }
     }
 
-    val endPosition = remember(mapUiState.endPoint) {
-        mapUiState.endPoint?.toPosition()
+    val endPosition = remember(mapUiState.points) {
+        mapUiState.points.lastOrNull()?.toPosition()
     }
 
     val currentPosition = remember(mapUiState.currentPositionPoint) {
@@ -78,6 +78,10 @@ fun MapWithRoute(
         mapUiState.initialUserPosition?.toPosition()
     }
 
+
+    val checkPoints = remember(mapUiState.usedCheckPoints) {
+        mapUiState.usedCheckPoints.map { it.toPosition() }
+    }
 
     val cameraState = rememberCameraState(
         firstPosition = CameraPosition(
@@ -104,6 +108,20 @@ fun MapWithRoute(
                 width = const(4.dp),
                 cap = const(LineCap.Round),
                 join = const(LineJoin.Round)
+            )
+        }
+
+
+        checkPoints.forEach {
+            val checkpointSource = rememberGeoJsonSource(
+                GeoJsonData.JsonString(createPointJson(it))
+            )
+
+            CircleLayer(
+                id = "checkpoint-${it.latitude}-${it.longitude}",
+                source = checkpointSource,
+                color = const(Color.Magenta),
+                radius = const(5.dp)
             )
         }
 
@@ -213,6 +231,18 @@ val fakeRoute2 = listOf(
     Position(longitude = 30.359023, latitude = 30.505625),
     Position(longitude = 30.359282, latitude = 30.505924),
     Position(longitude = 30.359749, latitude = 30.506463)
+)
+
+val electricityCheckpoints = listOf(
+    Position(latitude = 31.20733, longitude = 29.92457),
+    Position(latitude = 31.20722, longitude = 29.92463),
+    Position(latitude = 31.20751, longitude = 29.92446),
+    Position(latitude = 31.20743, longitude = 29.92451),
+    Position(latitude = 31.20694, longitude = 29.9248),
+    Position(latitude = 31.20759, longitude = 29.92441),
+    Position(latitude = 31.20712, longitude = 29.92469),
+    Position(latitude = 31.20702, longitude = 29.92475),
+    Position(latitude = 31.20677, longitude = 29.92491)
 )
 
 private fun PointUiState.toPosition(): Position {
