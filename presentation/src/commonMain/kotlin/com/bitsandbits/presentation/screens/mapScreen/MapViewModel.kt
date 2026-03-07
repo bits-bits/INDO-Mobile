@@ -115,10 +115,11 @@ class MapViewModel(
                 println("TAG VM current location get route from domain is: $routes")
                 updateState {
                     it.copy(
-                        points = routes.first.map { point -> point.toPointUiState() },
-                        usedCheckPoints = routes.second.map { point -> point.toPointUiState() })
+                        groundPoints = routes.first.map { point -> point.toPointUiState() },
+                        upperPoints = routes.second.map { point -> point.toPointUiState() },
+                        usedCheckPoints = routes.third.map { point -> point.toPointUiState() })
                 }
-                println("TAG VM current location get route from domain  after map: ${state.value.points}")
+                println("TAG VM current location get route from domain  after map: ${state.value.groundPoints}")
 
             },
             onError = { println("TAG VM current location get route is errrro: ${it.message}") }

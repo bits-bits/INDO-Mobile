@@ -62,13 +62,18 @@ fun MapWithRoute(
     mapStyleUrl: String = "https://tiles.openfreemap.org/styles/liberty"
 ) {
     // Memoize positions to prevent unnecessary recompositions
-    val routePositions = remember(mapUiState.points) {
-        mapUiState.points.map { it.toPosition() }
+    val groundPositions = remember(mapUiState.groundPoints) {
+        mapUiState.groundPoints.map { it.toPosition() }
     }
 
-    val endPosition = remember(mapUiState.points) {
-        mapUiState.points.lastOrNull()?.toPosition()
+    val endPosition = remember(mapUiState.groundPoints) {
+        mapUiState.groundPoints.lastOrNull()?.toPosition()
     }
+
+    val destinationPosition = remember(mapUiState.upperPoints) {
+        mapUiState.upperPoints.lastOrNull()?.toPosition()
+    }
+
 
     val currentPosition = remember(mapUiState.currentPositionPoint) {
         mapUiState.currentPositionPoint?.toPosition()
@@ -83,6 +88,10 @@ fun MapWithRoute(
         mapUiState.usedCheckPoints.map { it.toPosition() }
     }
 
+    val upperPositions = remember(mapUiState.upperPoints) {
+        mapUiState.upperPoints.map { it.toPosition() }
+    }
+
     val cameraState = rememberCameraState(
         firstPosition = CameraPosition(
             target = Position(latitude = 31.207313, longitude = 29.924058),
@@ -95,19 +104,35 @@ fun MapWithRoute(
         baseStyle = BaseStyle.Uri(mapStyleUrl),
         cameraState = cameraState
     ) {
-        val routeSource = rememberGeoJsonSource(
-            GeoJsonData.JsonString(createLineStringJson(mapUiState.points.map { it.toPosition() }))
+        val groundRouteSource = rememberGeoJsonSource(
+            GeoJsonData.JsonString(createLineStringJson(mapUiState.groundPoints.map { it.toPosition() }))
+        )
+        val upperRouteSource = rememberGeoJsonSource(
+            GeoJsonData.JsonString(createLineStringJson(mapUiState.upperPoints.map { it.toPosition() }))
         )
 
-        if (routePositions.isNotEmpty()) {
-            println("TAG BOB route in maps is: ${mapUiState.points}")
+        if (groundPositions.isNotEmpty()) {
+            println("TAG BOB route in maps is: ${mapUiState.groundPoints}")
             LineLayer(
                 id = "route-line",
-                source = routeSource,
+                source = groundRouteSource,
                 color = const(Color.Blue),
                 width = const(4.dp),
                 cap = const(LineCap.Round),
                 join = const(LineJoin.Round)
+            )
+        }
+
+        if (upperPositions.isNotEmpty()) {
+            println("TAG BOB route in maps is: ${mapUiState.upperPoints}")
+            LineLayer(
+                id = "upper-route-line",
+                source = upperRouteSource,
+                color = const(Color(0xFFF97316)),
+                width = const(3.dp),
+                cap = const(LineCap.Round),
+                join = const(LineJoin.Round),
+                dasharray = const(listOf(2.0, 2.0))
             )
         }
 
@@ -134,6 +159,18 @@ fun MapWithRoute(
             CircleLayer(
                 id = "end-point-circle",
                 source = endPointSource,
+                color = const(Color(0xFFF59E0B)),
+                radius = const(6.dp)
+            )
+        }
+        destinationPosition?.let { position ->
+            val destinationPointSource = rememberGeoJsonSource(
+                GeoJsonData.JsonString(createPointJson(position))
+            )
+
+            CircleLayer(
+                id = "destination-point-circle",
+                source = destinationPointSource,
                 color = const(Color.Red),
                 radius = const(6.dp)
             )

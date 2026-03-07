@@ -5,7 +5,8 @@ import com.bitsandbits.presentation.Base.ErrorState
 data class MapUiState(
     val isLoading: Boolean = false,
     val errorState: ErrorState? = null,
-    val points: List<PointUiState> = emptyList(),
+    val groundPoints: List<PointUiState> = emptyList(),
+    val upperPoints: List<PointUiState> = emptyList(),
     val startPoint: PointUiState? = null,
     val currentPositionPoint: PointUiState? = null,
     val initialUserPosition: PointUiState? = null,
