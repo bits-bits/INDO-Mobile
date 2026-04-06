@@ -171,7 +171,7 @@ fun LocationCard(modifier: Modifier = Modifier, location: LocationUiState?) {
                                 .height(40.dp)
                                 .clip(RoundedCornerShape(12.dp))
                                 .background(Color.Blue.copy(alpha = 0.5f))
-                                .clickable(onClick = { navController.navigate(Destinations.MapScreenRoute(latitude = location.latitude, longitude = location.longitude, locationId = location.id))})
+                                .clickable(onClick = { navController.navigate(Destinations.MapScreenRoute(latitude = location.latitude, longitude = location.longitude, locationId = location.id, floorNumber = location.floorNumber as Int?))})
                                 .padding(horizontal = 8.dp),
                             contentAlignment = Alignment.Center
                         ) {

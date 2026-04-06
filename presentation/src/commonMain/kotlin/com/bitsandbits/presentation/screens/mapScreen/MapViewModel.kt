@@ -37,6 +37,7 @@ class MapViewModel(
                 )
             }
         }
+        updateState { it.copy(floorNumber = args.floorNumber) }
         if (args.locationId != null) {
             updateState {
                 it.copy(

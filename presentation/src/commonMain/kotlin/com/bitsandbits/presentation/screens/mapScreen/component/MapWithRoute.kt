@@ -1,7 +1,14 @@
 package com.bitsandbits.presentation.screens.mapScreen.component
 
+import androidx.compose.animation.animateColor
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -99,11 +106,38 @@ fun MapWithRoute(
         )
     )
 
+
     MaplibreMap(
         modifier = Modifier.fillMaxSize(),
         baseStyle = BaseStyle.Uri(mapStyleUrl),
         cameraState = cameraState
     ) {
+
+        val upperLineColor by remember { mutableStateOf(Color(0xFFF97316)) }
+        val groundLineColor by remember { mutableStateOf(Color.Blue) }
+
+
+        val infiniteTransition = rememberInfiniteTransition()
+        val animatedUpperLineColor by infiniteTransition.animateColor(
+            initialValue = Color(0xFFF97316),
+            targetValue = Color.White,
+            animationSpec = infiniteRepeatable(
+                animation = tween(1500),
+                repeatMode = RepeatMode.Reverse
+            )
+        )
+        val animatedGroundLineColor by infiniteTransition.animateColor(
+            initialValue = Color.Blue,
+//            targetValue = Color(0xFFF59E0B),
+            targetValue = Color.Transparent,
+            animationSpec = infiniteRepeatable(
+                animation = tween(1000),
+                repeatMode = RepeatMode.Reverse
+            )
+        )
+
+
+
         val groundRouteSource = rememberGeoJsonSource(
             GeoJsonData.JsonString(createLineStringJson(mapUiState.groundPoints.map { it.toPosition() }))
         )
@@ -128,7 +162,7 @@ fun MapWithRoute(
             LineLayer(
                 id = "upper-route-line",
                 source = upperRouteSource,
-                color = const(Color(0xFFF97316)),
+                color = const(animatedUpperLineColor),
                 width = const(3.dp),
                 cap = const(LineCap.Round),
                 join = const(LineJoin.Round),
@@ -156,10 +190,11 @@ fun MapWithRoute(
                 GeoJsonData.JsonString(createPointJson(position))
             )
 
+            val color = if(mapUiState.upperPoints.isEmpty()) Color.Red else Color(0xFFF59E0B)
             CircleLayer(
                 id = "end-point-circle",
                 source = endPointSource,
-                color = const(Color(0xFFF59E0B)),
+                color = const(color),
                 radius = const(6.dp)
             )
         }

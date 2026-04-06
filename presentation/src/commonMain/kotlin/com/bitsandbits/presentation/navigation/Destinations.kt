@@ -1,5 +1,6 @@
 package com.bitsandbits.presentation.navigation
 
+import com.bitsandbits.presentation.common.uiState.LocationUiState
 import kotlinx.serialization.Serializable
 
 sealed interface Destinations {
@@ -17,7 +18,7 @@ sealed interface Destinations {
     data object HomeScreenRoute : Destinations
 
     @Serializable
-    data class MapScreenRoute(val latitude: Double?, val longitude: Double?, val locationId: String?) : Destinations
+    data class MapScreenRoute(val latitude: Double?, val longitude: Double?, val locationId: String?, val floorNumber: Int?) : Destinations
 
     @Serializable
     data object LibraryScreenRoute : Destinations
