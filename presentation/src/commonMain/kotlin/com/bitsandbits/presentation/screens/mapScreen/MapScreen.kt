@@ -34,6 +34,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.unit.dp
 import com.bitsandbits.designsystem.theme.theme.Theme
+import com.bitsandbits.presentation.component.LoadingComponent
 import com.bitsandbits.presentation.screens.mapScreen.component.MapWithRoute
 import indo.presentation.generated.resources.Res
 import indo.presentation.generated.resources.ic_arrow_left
@@ -43,66 +44,69 @@ import org.koin.compose.viewmodel.koinViewModel
 @Composable
 fun MapScreen(mapViewModel: MapViewModel = koinViewModel()) {
     val state by mapViewModel.state.collectAsState()
-        MapScreenContent(state = state)
+    MapScreenContent(state = state)
 }
 
 @Composable
 private fun MapScreenContent(state: MapUiState){
-    Box(modifier = Modifier.fillMaxSize()) {
-        MapWithRoute(mapUiState = state)
+    if (state.isLoading.not()){
+        Box(modifier = Modifier.fillMaxSize()) {
+            MapWithRoute(mapUiState = state)
 
-        var showInfo by remember { mutableStateOf(false) }
-        val showInfoWidth by animateFloatAsState(if (showInfo) 300f else 30f, tween(500))
+            var showInfo by remember { mutableStateOf(false) }
+            val showInfoWidth by animateFloatAsState(if (showInfo) 300f else 30f, tween(500))
 
-        val showInfoModifierHeight = if(showInfo) Modifier.wrapContentHeight() else Modifier.height(100.dp)
-        val showInfoPadding = if(showInfo) 8.dp else 0.dp
+            val showInfoModifierHeight = if(showInfo) Modifier.wrapContentHeight() else Modifier.height(100.dp)
+            val showInfoPadding = if(showInfo) 8.dp else 0.dp
 
-        Column(
-            modifier = Modifier
-                .width(showInfoWidth.dp)
-                .then(showInfoModifierHeight)
-                .shadow(8.dp, RoundedCornerShape(topStart = 15.dp, bottomStart = 15.dp))
-                .clip(RoundedCornerShape(topStart = 15.dp, bottomStart = 15.dp))
-                .background(color = Color.White).align(Alignment.TopEnd)
-                .clickable { showInfo = !showInfo }
-                .padding(all = showInfoPadding),
-            verticalArrangement = Arrangement.spacedBy(2.dp)
-        ) {
+            Column(
+                modifier = Modifier
+                    .width(showInfoWidth.dp)
+                    .then(showInfoModifierHeight)
+                    .shadow(8.dp, RoundedCornerShape(topStart = 15.dp, bottomStart = 15.dp))
+                    .clip(RoundedCornerShape(topStart = 15.dp, bottomStart = 15.dp))
+                    .background(color = Color.White).align(Alignment.TopEnd)
+                    .clickable { showInfo = !showInfo }
+                    .padding(all = showInfoPadding),
+                verticalArrangement = Arrangement.spacedBy(2.dp)
+            ) {
 
-            if(showInfo){
-                InfoRow(
-                    title = "Ground floor",
-                    endContent = { Box(modifier = Modifier.height(5.dp).width(40.dp).clip(RoundedCornerShape(3.dp)).background(color = Color.Blue))}
-
-                )
-                if(state.floorNumber != 0){
+                if(showInfo){
                     InfoRow(
-                        title = floorNumberMapper(state.floorNumber),
-                        endContent = { Row(horizontalArrangement = Arrangement.spacedBy(2.dp)) {
-                            repeat(5){
-                                Box(modifier = Modifier.height(4.dp).width(9.dp).clip(RoundedCornerShape(3.dp)).background(color = Color(0xFFF97316)))
-                            }
-                        } }
+                        title = "Ground floor",
+                        endContent = { Box(modifier = Modifier.height(5.dp).width(40.dp).clip(RoundedCornerShape(3.dp)).background(color = Color.Blue))}
+
                     )
+                    if(state.floorNumber != 0){
+                        InfoRow(
+                            title = floorNumberMapper(state.floorNumber),
+                            endContent = { Row(horizontalArrangement = Arrangement.spacedBy(2.dp)) {
+                                repeat(5){
+                                    Box(modifier = Modifier.height(4.dp).width(9.dp).clip(RoundedCornerShape(3.dp)).background(color = Color(0xFFF97316)))
+                                }
+                            } }
+                        )
+
+                        InfoRow(
+                            title = "Stairs",
+                            endContent = { Box(modifier = Modifier.size(10.dp).clip(CircleShape).background(color = Color(0xFFF59E0B)))}
+                        )
+                    }
+
 
                     InfoRow(
-                        title = "Stairs",
-                        endContent = { Box(modifier = Modifier.size(10.dp).clip(CircleShape).background(color = Color(0xFFF59E0B)))}
+                        title = "Destination",
+                        endContent = { Box(modifier = Modifier.size(10.dp).clip(CircleShape).background(color = Color.Red))}
                     )
+                }else{
+                    Spacer(modifier = Modifier.weight(1f))
+                    Image(painter = painterResource(Res.drawable.ic_arrow_left), colorFilter = ColorFilter.tint(Theme.color.onPrimary), contentDescription = null, modifier = Modifier.size(20.dp).align(Alignment.CenterHorizontally))
+                    Spacer(modifier = Modifier.weight(1f))
                 }
-
-
-                InfoRow(
-                    title = "Destination",
-                    endContent = { Box(modifier = Modifier.size(10.dp).clip(CircleShape).background(color = Color.Red))}
-                )
-            }else{
-                Spacer(modifier = Modifier.weight(1f))
-                Image(painter = painterResource(Res.drawable.ic_arrow_left), colorFilter = ColorFilter.tint(Theme.color.onPrimary), contentDescription = null, modifier = Modifier.size(20.dp).align(Alignment.CenterHorizontally))
-                Spacer(modifier = Modifier.weight(1f))
             }
         }
-//        Text(text = "${state.currentPositionPoint}", modifier = Modifier.background(Color.White))
+    }else{
+        LoadingComponent()
     }
 }
 

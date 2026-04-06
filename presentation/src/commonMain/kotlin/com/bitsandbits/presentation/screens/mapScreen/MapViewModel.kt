@@ -64,6 +64,7 @@ class MapViewModel(
     }
 
     fun getInitialUserLocation() {
+        updateState { it.copy(isLoading = true) }
         viewModelScope.launch {
             val location = userLocationRepository.getUserLocation().filterNotNull().first()
             if (location != null) {
@@ -121,9 +122,13 @@ class MapViewModel(
                         usedCheckPoints = routes.third.map { point -> point.toPointUiState() })
                 }
                 println("TAG VM current location get route from domain  after map: ${state.value.groundPoints}")
+                updateState { it.copy(isLoading = false) }
 
             },
-            onError = { println("TAG VM current location get route is errrro: ${it.message}") }
+            onError = {
+                println("TAG VM current location get route is errrro: ${it.message}")
+                updateState { it.copy(isLoading = false) }
+            }
         )
     }
 
