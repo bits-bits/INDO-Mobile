@@ -19,7 +19,7 @@ val LocalNavController = staticCompositionLocalOf<NavController> {
 }
 
 @Composable
-fun IndoNavHost(startDestination: Destinations = Destinations.LoginScreenRoute){
+fun IndoNavHost(startDestination: Destinations = Destinations.HomeScreenRoute){
     IndoTheme {
         val navController = rememberNavController()
         CompositionLocalProvider(LocalNavController provides navController){

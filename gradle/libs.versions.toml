@@ -36,10 +36,13 @@ koin-core = "4.1.1"
 buildkonfig = "0.15.1"
 kotlinx-coroutines = "1.10.2"
 playServicesLocation = "21.3.0"
+securityCrypto = "1.1.0"
 toolsCore = "1.0.0-alpha14"
+turbine = "1.2.0"
 
 
 [libraries]
+androidx-security-crypto = { module = "androidx.security:security-crypto", version.ref = "securityCrypto" }
 bottom-sheet-navigator = { module = "cafe.adriel.voyager:bottom-sheet-navigator", version.ref = "navigator" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlin-testJunit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
@@ -79,6 +82,8 @@ koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin-core" }
 koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koin-core" }
 
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx-coroutines" }
+turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 
 
 
