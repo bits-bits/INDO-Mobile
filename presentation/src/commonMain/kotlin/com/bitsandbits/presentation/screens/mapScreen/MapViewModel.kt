@@ -100,7 +100,10 @@ class MapViewModel(
     private fun getRouteToLocation() {
         println("TAG BOB, JOE getRouteToLocation start = ${state.value.initialUserPosition}, end point is ${state.value.endPoint}, id of location is ${state.value.destinationLocationId}")
 //        if (state.value.initialUserPosition == null || state.value.endPoint == null) return
-        if (state.value.destinationLocationId == null) return
+        if (state.value.destinationLocationId == null){
+            updateState { it.copy(isLoading = false) }
+            return
+        }
         tryToExecute(
             function = {
                 locationRepository.getRouteToLocation(
