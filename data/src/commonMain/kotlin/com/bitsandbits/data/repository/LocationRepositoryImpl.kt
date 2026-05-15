@@ -35,7 +35,7 @@ class LocationRepositoryImpl(private val locationApiService: LocationApiService)
             startLong = start.longitude,
             locationId = locationId
         )
-
+        println("TAG BOB LOL ROUTE TO LOCATION RESPONSE: $response")
         val groundRoute = response.first().coordinates.map { it.toDomain() }
         val upperRoute = response[1].coordinates.map { it.toDomain() }
         val checkPoints = response[2].coordinates.map { it.toDomain() }

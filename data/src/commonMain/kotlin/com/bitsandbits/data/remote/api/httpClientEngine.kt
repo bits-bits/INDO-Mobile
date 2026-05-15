@@ -28,6 +28,8 @@ object NetworkClient {
             level = LogLevel.ALL
         }
 
+//        install(authInterceptor.plugin())
+
         install(Auth) {
             basic {
                 credentials {
@@ -42,6 +44,26 @@ object NetworkClient {
                 protocol = URLProtocol.HTTP
                 host = BuildKonfig.HOST      // home wifi
                 port = BuildKonfig.PORT
+            }
+            headers.append("Accept", "application/json")
+        }
+    }
+}
+
+
+object PlainNetworkClient {
+    val client = HttpClient(httpClientEngine()) {
+        install(ContentNegotiation) {
+            json(Json {
+                ignoreUnknownKeys = true
+                isLenient = true
+            })
+        }
+        install(Logging) { level = LogLevel.ALL }
+        defaultRequest {
+            url {
+                protocol = URLProtocol.HTTPS
+                host = BuildKonfig.HOST
             }
             headers.append("Accept", "application/json")
         }

@@ -110,6 +110,7 @@ kotlin {
                 // Ktor
                 api(libs.ktor.client.okhttp)
                 implementation(libs.play.services.location)
+                implementation(libs.androidx.security.crypto)
             }
         }
 

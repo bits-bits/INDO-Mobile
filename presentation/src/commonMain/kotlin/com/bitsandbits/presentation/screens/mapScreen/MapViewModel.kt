@@ -106,15 +106,17 @@ class MapViewModel(
         }
         tryToExecute(
             function = {
-                locationRepository.getRouteToLocation(
+                val x = locationRepository.getRouteToLocation(
                     start = getStartDestination(),
                     locationId = state.value.destinationLocationId!!
                 )
+                println("TAG VM current location get route from domain 1 is: $x")
 
 //                locationRepository.getRouteBetweenTwoPoints(
 //                    start = getStartDestination(),
 //                    end = getEndDestination()
 //                )
+                x
             },
             onSuccess = { routes ->
                 println("TAG VM current location get route from domain is: $routes")

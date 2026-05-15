@@ -5,6 +5,7 @@ import com.bitsandbits.data.remote.api.LocationApiService
 import com.bitsandbits.data.repository.BuildingsRepositoryImpl
 import com.bitsandbits.data.repository.FloorRepositoryImpl
 import com.bitsandbits.data.repository.LocationRepositoryImpl
+import com.bitsandbits.data.repository.TokenStorageRepo
 import com.bitsandbits.data.repository.UserRepositoryImpl
 import com.bitsandbits.repository.BuildingsRepository
 import com.bitsandbits.repository.FloorRepository
