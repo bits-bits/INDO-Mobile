@@ -8,11 +8,11 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.bitsandbits.presentation.screens.mapScreen.MapUiState
 import com.bitsandbits.presentation.screens.mapScreen.PointUiState
 import org.maplibre.compose.camera.CameraPosition
@@ -20,8 +20,10 @@ import org.maplibre.compose.camera.rememberCameraState
 import org.maplibre.compose.expressions.dsl.const
 import org.maplibre.compose.expressions.value.LineCap
 import org.maplibre.compose.expressions.value.LineJoin
+import org.maplibre.compose.expressions.value.SymbolAnchor
 import org.maplibre.compose.layers.CircleLayer
 import org.maplibre.compose.layers.LineLayer
+import org.maplibre.compose.layers.SymbolLayer
 import org.maplibre.compose.map.MaplibreMap
 import org.maplibre.compose.sources.GeoJsonData
 import org.maplibre.compose.sources.rememberGeoJsonSource
@@ -59,6 +61,26 @@ private fun createPointJson(coordinate: Position): String {
                 "type": "Point",
                 "coordinates": [${coordinate.longitude},${coordinate.latitude}]
             }
+        }
+    """.trimIndent()
+}
+
+private fun createTextJson(coordinate: Position?): String {
+    if (coordinate == null) {
+        return """
+            {
+                "type": "Feature",
+                "features": []
+            }
+        """.trimIndent()
+    }
+    return """
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [${coordinate.longitude}, ${coordinate.latitude}]
+          }
         }
     """.trimIndent()
 }
@@ -113,10 +135,6 @@ fun MapWithRoute(
         cameraState = cameraState
     ) {
 
-        val upperLineColor by remember { mutableStateOf(Color(0xFFF97316)) }
-        val groundLineColor by remember { mutableStateOf(Color.Blue) }
-
-
         val infiniteTransition = rememberInfiniteTransition()
         val animatedUpperLineColor by infiniteTransition.animateColor(
             initialValue = Color(0xFFF97316),
@@ -126,24 +144,29 @@ fun MapWithRoute(
                 repeatMode = RepeatMode.Reverse
             )
         )
-        val animatedGroundLineColor by infiniteTransition.animateColor(
-            initialValue = Color.Blue,
-//            targetValue = Color(0xFFF59E0B),
-            targetValue = Color.Transparent,
-            animationSpec = infiniteRepeatable(
-                animation = tween(1000),
-                repeatMode = RepeatMode.Reverse
-            )
-        )
-
-
-
         val groundRouteSource = rememberGeoJsonSource(
             GeoJsonData.JsonString(createLineStringJson(mapUiState.groundPoints.map { it.toPosition() }))
         )
         val upperRouteSource = rememberGeoJsonSource(
             GeoJsonData.JsonString(createLineStringJson(mapUiState.upperPoints.map { it.toPosition() }))
         )
+
+
+//        SymbolLayer(
+//            id = "my-text-layer",
+//            source = textSource,
+//            textField = const(mapUiState.destinationName?: ""),
+//            textSize = const(16.sp),
+//            textColor = const(Color.White),
+//            textHaloColor = const(Color.Black),
+//            textHaloWidth = const(2.dp),
+//            textAnchor = const(SymbolAnchor.Center),
+//            textAllowOverlap = const(true),
+//            textIgnorePlacement = const(true),
+//            textFont = const(listOf("Noto Sans Regular"))
+//        )
+
+
 
         if (groundPositions.isNotEmpty()) {
             println("TAG BOB route in maps is: ${mapUiState.groundPoints}")
@@ -185,20 +208,43 @@ fun MapWithRoute(
         }
 
 
-        endPosition?.let { position ->
+        endPosition?.let { position ->                      // lower target
             val endPointSource = rememberGeoJsonSource(
                 GeoJsonData.JsonString(createPointJson(position))
             )
 
-            val color = if(mapUiState.upperPoints.isEmpty()) Color.Red else Color(0xFFF59E0B)
+            val color = if (mapUiState.upperPoints.isEmpty()) Color.Red else Color(0xFFF59E0B)
             CircleLayer(
                 id = "end-point-circle",
                 source = endPointSource,
                 color = const(color),
                 radius = const(6.dp)
             )
+            if (mapUiState.upperPoints.isEmpty()){
+                val endTextSource = rememberGeoJsonSource(
+                    GeoJsonData.JsonString(
+                        createTextJson(
+                            position
+                        )
+                    )
+                )
+
+                SymbolLayer(
+                    id = "end-text-layer",
+                    source = endTextSource,
+                    textField = const(mapUiState.destinationName?: ""),
+                    textSize = const(16.sp),
+                    textColor = const(Color.White),
+                    textHaloColor = const(Color.Black),
+                    textHaloWidth = const(2.dp),
+                    textAnchor = const(SymbolAnchor.Center),
+                    textAllowOverlap = const(true),
+                    textIgnorePlacement = const(true),
+                    textFont = const(listOf("Noto Sans Regular"))
+                )
+            }
         }
-        destinationPosition?.let { position ->
+        destinationPosition?.let { position ->                              // upper target
             val destinationPointSource = rememberGeoJsonSource(
                 GeoJsonData.JsonString(createPointJson(position))
             )
@@ -209,7 +255,42 @@ fun MapWithRoute(
                 color = const(Color.Red),
                 radius = const(6.dp)
             )
+
+            val destinationTextSource = rememberGeoJsonSource(
+                GeoJsonData.JsonString(
+                    createTextJson(
+                        position
+                    )
+                )
+            )
+
+            SymbolLayer(
+                id = "my-text-layer",
+                source = destinationTextSource,
+                textField = const(mapUiState.destinationName?: ""),
+                textSize = const(16.sp),
+                textColor = const(Color.White),
+                textHaloColor = const(Color.Black),
+                textHaloWidth = const(2.dp),
+                textAnchor = const(SymbolAnchor.Center),
+                textAllowOverlap = const(true),
+                textIgnorePlacement = const(true),
+                textFont = const(listOf("Noto Sans Regular"))
+            )
+
         }
+//        destinationPosition?.let { position ->                              // Text for upper target
+//            val destinationTextSource = rememberGeoJsonSource(
+//                GeoJsonData.JsonString(createPointJson(position))
+//            )
+//
+//            CircleLayer(
+//                id = "destination-point-circle",
+//                source = destinationTextSource,
+//                color = const(Color.Red),
+//                radius = const(6.dp)
+//            )
+//        }
 
         currentPosition?.let { position ->
             val currentPositionSource = rememberGeoJsonSource(

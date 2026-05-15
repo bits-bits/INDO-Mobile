@@ -9,6 +9,7 @@ interface MapArgs {
     val latitude: Double?
     val longitude: Double?
     val locationId: String?
+    val locationName: String?
     val floorNumber: Int?
 }
 
@@ -22,4 +23,5 @@ class MapArgsImpl(savedStateHandle: SavedStateHandle): MapArgs {
     override val longitude: Double? = route?.longitude
     override val locationId: String? = route?.locationId
     override val floorNumber: Int? = route?.floorNumber
+    override val locationName: String? = route?.locationName
 }

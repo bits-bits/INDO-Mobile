@@ -24,29 +24,24 @@ class MapViewModel(
     }
 
     fun getDestination() {
-        if (args.latitude != null && args.longitude != null) {
-            updateState {
-                it.copy(
-                    endPoint = PointUiState(
-                        latitude = args.latitude!!,
-                        longitude = args.longitude!!,
-//                    latitude = 31.22357,
-//                    longitude = 29.953427,
-                        type = PointType.CHECK_POINT
-                    )
-                )
-            }
-        }
+        println("in get destination, location name is: ${args.locationName}, latitude is: ${args.latitude}, longitude is: ${args.longitude}, location id is: ${args.locationId}")
+        updateState { it.copy(destinationName = args.locationName) }
+//        if (args.latitude != null && args.longitude != null) {
+//            updateState {
+//                it.copy(
+//                    endPoint = PointUiState(
+//                        latitude = args.latitude!!,
+//                        longitude = args.longitude!!,
+//                        type = PointType.CHECK_POINT
+//                    )
+//                )
+//            }
+//        }
         updateState { it.copy(floorNumber = args.floorNumber) }
         if (args.locationId != null) {
             updateState {
                 it.copy(
                     destinationLocationId = args.locationId,
-                    endPoint = PointUiState(
-                        latitude = 31.2074193,
-                        longitude = 29.9243365,
-                        type = PointType.DESTINATION
-                    )
                 )
             }
         }
@@ -98,8 +93,7 @@ class MapViewModel(
     }
 
     private fun getRouteToLocation() {
-        println("TAG BOB, JOE getRouteToLocation start = ${state.value.initialUserPosition}, end point is ${state.value.endPoint}, id of location is ${state.value.destinationLocationId}")
-//        if (state.value.initialUserPosition == null || state.value.endPoint == null) return
+        println("TAG BOB, JOE getRouteToLocation start = ${state.value.initialUserPosition}, id of location is ${state.value.destinationLocationId}")
         if (state.value.destinationLocationId == null){
             updateState { it.copy(isLoading = false) }
             return
@@ -143,15 +137,6 @@ class MapViewModel(
             latitude = state.value.initialUserPosition!!.latitude,
             longitude = state.value.initialUserPosition!!.longitude,
             type = state.value.initialUserPosition!!.type.toCoordinateType(),
-        )
-    }
-
-    private fun getEndDestination(): Point {
-        if (state.value.endPoint == null) throw Exception("End point is null")
-        return Point(
-            latitude = state.value.endPoint!!.latitude,
-            longitude = state.value.endPoint!!.longitude,
-            type = state.value.endPoint!!.type.toCoordinateType(),
         )
     }
 }
