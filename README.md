@@ -1,4 +1,6 @@
-![banner](docs/images/banner.png)
+<p align="center">
+  <img src="docs/images/banner.png" alt="INDO Banner" width="900"/>
+</p>
 
 <h1 align="center">INDO</h1>
 
@@ -64,8 +66,10 @@ Browse all faculty buildings through an interactive home screen. Each building i
 - Available floors and floor maps
 - Classes, laboratories, and offices on each floor
 
-![home](docs/images/home.png)
-![building](docs/images/building.png)
+<p align="center">
+  <img src="docs/images/home.png" width="220"/>
+  <img src="docs/images/building.png" width="220"/>
+</p>
 
 ### 🔍 Smart Search
 
@@ -75,7 +79,9 @@ Search for classrooms, laboratories, and offices with:
 - Fast filtering
 - Direct navigation to the selected destination
 
-![search](docs/images/search.png)
+<p align="center">
+  <img src="docs/images/search.png" width="220"/>
+</p>
 
 ### 🗺️ Outdoor Navigation
 
@@ -84,8 +90,6 @@ Powered by the **Geoapify Routing API**, the application:
 1. Detects the user's current location
 2. Calculates the shortest path to the destination building
 3. Guides the user to the entrance (gate) of the selected building
-
-![routing](docs/images/routing.png)
 
 ### 🧭 Indoor Navigation
 
@@ -103,9 +107,10 @@ Two approaches are supported for user positioning:
 - **Wi-Fi Router Detection** — uses nearby Wi-Fi access points to estimate location where hardware infrastructure is available.
 - **GPS Approximation** — uses GPS coordinates mapped to the nearest checkpoint when Wi-Fi positioning is unavailable.
 
-![indoor1](docs/images/indoor1.png)
-![indoor2](docs/images/indoor2.png)
 
+<p align="center">
+  <img src="docs/images/routing.png" width="220"/>
+</p>
 ---
 
 ## 🏗️ System Architecture
@@ -161,7 +166,6 @@ Presentation
 └── UI State
 
 Domain
-├── Use Cases
 ├── Repository Interfaces
 └── Models
 
@@ -227,11 +231,11 @@ Stores:
 
 | Home | Building Details |
 |:---:|:---:|
-| ![home](docs/images/home.png) | ![building](docs/images/building.png) |
+| <img src="docs/images/home.png" width="200"/> | <img src="docs/images/building.png" width="200"/> |
 
 | Search | Outdoor Navigation |
 |:---:|:---:|
-| ![search](docs/images/search.png) | ![routing](docs/images/routing.png) |
+| <img src="docs/images/search.png" width="200"/> | <img src="docs/images/routing.png" width="200"/> |
 
 ---
 
